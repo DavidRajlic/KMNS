@@ -1,8 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const teamRoutes = require("./routes/TeamRoutes");
 const app = express();
 const port = 4000;
+
+app.use(express.json());
+app.use("/team", teamRoutes);
 
 // MongoDB connection
 mongoose
