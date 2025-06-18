@@ -94,17 +94,17 @@ module.exports = {
     const id = req.params.id;
 
     try {
-      const review = await ReviewModel.findByIdAndDelete(id);
+      const team = await TeamModel.findByIdAndDelete(id);
 
-      if (!review) {
+      if (!team) {
         return res.status(404).json({
-          message: "No such review to delete",
+          message: "No such team to delete",
         });
       }
 
       return res.status(200).json({
-        message: "Review deleted successfully",
-        deletedReview: review,
+        message: "team deleted successfully",
+        deletedTeam: team,
       });
     } catch (err) {
       // Explicitly log the error if you want to debug invalid ObjectId, etc.
