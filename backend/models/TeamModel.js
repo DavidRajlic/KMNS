@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var TeamSchema = new Schema({
   name: String,
   group: String,
+  place: Number, // group place (1st, 2nd..)
   points: Number,
   goals_scored: Number,
   goals_conceded: Number,
