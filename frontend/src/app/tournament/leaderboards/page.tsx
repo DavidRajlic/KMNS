@@ -148,7 +148,11 @@ export default function LeaderboardsPage() {
                         .map((team, i) => (
                           <tr
                             key={team._id}
-                            className="hover:bg-blue-50 transition-colors duration-200"
+                            className={`transition-colors duration-200 ${
+                              i < 2 && team.matches_played > 2
+                                ? "bg-green-50 hover:bg-green-100 border-l-4 border-green-400"
+                                : "hover:bg-blue-50"
+                            }`}
                           >
                             {/* Mesto */}
                             <td className="px-2 sm:px-3 py-3">
