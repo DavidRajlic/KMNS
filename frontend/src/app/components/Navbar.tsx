@@ -38,6 +38,14 @@ export default function Navbar() {
             <Link href="/tournament/admin/teams">Ekipe</Link>
           </li>
           <li>
+            <Link
+              href="/tournament/admin/matches"
+              onClick={() => setMenuOpen(false)}
+            >
+              Tekme
+            </Link>
+          </li>
+          <li>
             <Link href="/tournament/admin/groups">Skupine</Link>
           </li>
           <li>
@@ -76,6 +84,14 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
               >
                 Skupine
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/tournament/admin/matches"
+                onClick={() => setMenuOpen(false)}
+              >
+                Tekme
               </Link>
             </li>
             <li>
