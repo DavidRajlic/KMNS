@@ -90,15 +90,28 @@ module.exports = {
   /**
    * TeamController.remove()
    */
-  remove: async (req, res) => {
+  remove: async function (req, res) {
+    const id = req.params.id;
+
     try {
-      const id = req.params.id;
-      await TeamModel.findByIdAndRemove(id);
-      return res.status(204).json();
+      const review = await ReviewModel.findByIdAndDelete(id);
+
+      if (!review) {
+        return res.status(404).json({
+          message: "No such review to delete",
+        });
+      }
+
+      return res.status(200).json({
+        message: "Review deleted successfully",
+        deletedReview: review,
+      });
     } catch (err) {
+      // Explicitly log the error if you want to debug invalid ObjectId, etc.
+      console.error("Delete error:", err);
       return res.status(500).json({
-        message: "Error when deleting the Team.",
-        error: err,
+        message: "Error when deleting the review.",
+        error: err.message || err,
       });
     }
   },
