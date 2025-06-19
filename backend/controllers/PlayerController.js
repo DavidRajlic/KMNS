@@ -14,6 +14,18 @@ module.exports = {
     }
   },
 
+  listByTeam: async function (req, res) {
+    try {
+      const teamId = req.params.teamId;
+      const players = await PlayerModel.find({ team_id: teamId });
+      return res.json(players);
+    } catch (err) {
+      return res.status(500).json({
+        message: "Napaka pri pridobivanju igralcev za ekipo.",
+        error: err,
+      });
+    }
+  },
   // GET /players/:id
   show: async (req, res) => {
     try {
