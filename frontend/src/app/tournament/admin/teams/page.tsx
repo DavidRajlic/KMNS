@@ -1,6 +1,6 @@
 "use client";
-
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Team = {
   _id: string;
@@ -8,6 +8,7 @@ type Team = {
 };
 
 export default function TeamsPage() {
+  const router = useRouter();
   const [teams, setTeams] = useState<Team[]>([]);
   const [teamNameInput, setTeamNameInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -56,7 +57,9 @@ export default function TeamsPage() {
     }
   };
 
-  const handleDeleteTeam = async (id: string) => {
+  const handleDeleteTeam = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prepreči navigacijo, ko kliknemo delete
+
     try {
       const res = await fetch(`http://localhost:4000/teams/${id}`, {
         method: "DELETE",
@@ -69,6 +72,10 @@ export default function TeamsPage() {
       console.error(err);
       setError("Ni bilo mogoče izbrisati ekipe.");
     }
+  };
+
+  const handleTeamClick = (teamId: string) => {
+    router.push(`teams/${teamId}`);
   };
 
   return (
@@ -94,18 +101,19 @@ export default function TeamsPage() {
 
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
-      <ul className="space-y-2">
+      <ul className="grid grid-cols-1 gap-3">
         {teams.map((team) => (
           <li
             key={team._id}
-            className="bg-white shadow-md rounded-lg px-4 py-3 border border-gray-100 flex justify-between items-center"
+            className="bg-white shadow-md rounded-lg px-4 py-3 border border-gray-100 flex justify-between items-center hover:bg-gray-50 cursor-pointer transition-colors"
+            onClick={() => handleTeamClick(team._id)}
           >
-            <span>{team.name}</span>
+            <span className="font-medium">{team.name}</span>
             <button
-              onClick={() => handleDeleteTeam(team._id)}
-              className="text-red-500 hover:text-red-700 text-2xl font-bold cursor-pointer"
+              onClick={(e) => handleDeleteTeam(team._id, e)}
+              className="text-red-500 hover:text-red-700 text-2xl font-bold cursor-pointer px-2 hover:bg-red-100 rounded-full"
             >
-              x
+              ×
             </button>
           </li>
         ))}
