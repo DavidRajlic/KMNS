@@ -13,11 +13,49 @@ const MatchSchema = new Schema({
     {
       player_id: { type: Schema.Types.ObjectId, ref: "Player" },
       player_name: String,
+      goals: Number,
     },
   ],
 
-  team1_players_yellow_card: [{ type: Schema.Types.ObjectId, ref: "Player" }],
+  team2_scorers: [
+    {
+      player_id: { type: Schema.Types.ObjectId, ref: "Player" },
+      player_name: String,
+      goals: Number,
+    },
+  ],
 
+  team1_yellow_cards: [
+    {
+      player_id: { type: Schema.Types.ObjectId, ref: "Player" },
+      player_name: String,
+      cards: Number,
+    },
+  ],
+
+  team2_yellow_cards: [
+    {
+      player_id: { type: Schema.Types.ObjectId, ref: "Player" },
+      player_name: String,
+      cards: Number,
+    },
+  ],
+
+  team1_red_cards: [
+    {
+      player_id: { type: Schema.Types.ObjectId, ref: "Player" },
+      player_name: String,
+      cards: Number,
+    },
+  ],
+
+  team2_red_cards: [
+    {
+      player_id: { type: Schema.Types.ObjectId, ref: "Player" },
+      player_name: String,
+      cards: Number,
+    },
+  ],
   stage: {
     type: String,
     enum: ["skupine", "četrtfinale", "polfinale", "finale"],
@@ -41,6 +79,7 @@ const MatchSchema = new Schema({
     type: Number, // for sorting example: 1900
     required: true,
   },
+  advantage: { type: Schema.Types.ObjectId, ref: "Team", default: null },
   winner: { type: Schema.Types.ObjectId, ref: "Team", default: null },
 });
 
