@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Team = {
   _id: string;
@@ -22,6 +23,7 @@ type Match = {
 type MatchStage = "skupine" | "četrfinale" | "polfinale" | "finale";
 
 export default function CreateMatchPage() {
+  const router = useRouter();
   const [teams, setTeams] = useState<Team[]>([]);
   const [selectedTeams, setSelectedTeams] = useState<Team[]>([]);
   const [matchTime, setMatchTime] = useState("");
@@ -50,6 +52,10 @@ export default function CreateMatchPage() {
     fetchTeams();
     fetchMatches();
   }, []);
+
+  const handleMatchClick = (matchId: string) => {
+    router.push(`matches/${matchId}`);
+  };
 
   const handleTeamClick = (team: Team) => {
     setError(null);
@@ -206,6 +212,7 @@ export default function CreateMatchPage() {
           <div
             key={match._id}
             className="bg-white shadow-md rounded-lg p-4 border border-gray-200"
+            onClick={() => handleMatchClick(match._id)}
           >
             <h2 className="font-semibold text-blue-800 mb-2">
               {match.team1_name} vs {match.team2_name}
