@@ -27,14 +27,13 @@ export default function LeaderboardsPage() {
       });
   }, []);
 
-  // Razdeli ekipe po skupinah
+  // sort teams by groups
   const groups = teams.reduce<Record<string, Team[]>>((acc, team) => {
     if (!acc[team.group]) acc[team.group] = [];
     acc[team.group].push(team);
     return acc;
   }, {});
 
-  // Funkcija za barvo mesta
   const getPositionStyle = (position: number) => {
     switch (position) {
       case 1:
@@ -48,7 +47,6 @@ export default function LeaderboardsPage() {
     }
   };
 
-  // Funkcija za barvo razlike golov
   const getDiffColor = (diff: number) => {
     if (diff > 0) return "text-green-600 font-semibold";
     if (diff < 0) return "text-red-600 font-semibold";
@@ -69,14 +67,12 @@ export default function LeaderboardsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 p-4 sm:p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8 sm:mb-12">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-4">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 p-10 to-blue-800 bg-clip-text text-transparent mb-4">
             Lestvice skupinskega dela
           </h1>
         </div>
 
-        {/* Legenda za krajšave - samo na manjših napravah */}
         <div className="sm:hidden mb-6 bg-blue-50 rounded-lg p-4 border-l-4 border-blue-400">
           <p className="text-sm text-blue-800 font-medium mb-2">📱 Krajšave:</p>
           <div className="text-xs text-blue-700 space-y-1">
@@ -92,7 +88,6 @@ export default function LeaderboardsPage() {
           </div>
         </div>
 
-        {/* Responsive grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {Object.entries(groups)
             .sort(([a], [b]) => a.localeCompare(b))
