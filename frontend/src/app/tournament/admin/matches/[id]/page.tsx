@@ -25,13 +25,14 @@ export default function EditMatch() {
   const [match, setMatch] = useState<Match | null>(null);
   const [players1, setPlayers1] = useState<Player[]>([]);
   const [players2, setPlayers2] = useState<Player[]>([]);
-  const [team1, setTeam1] = useState<Team[]>([]);
-  const [team2, setTeam2] = useState<Team[]>([]);
+  const [team1, setTeam1] = useState<Team | null>(null);
+  const [team2, setTeam2] = useState<Team | null>(null);
   const [team1Id, setTeam1Id] = useState<string | null>(null);
   const [team2Id, setTeam2Id] = useState<string | null>(null);
   const [isLive, setIsLive] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [isGroupStage, setIsGroupStage] = useState(false);
+  const [advantage, setAdvantage] = useState<string | null>(null);
 
   const [scorers, setScorers] = useState<{
     team1: PlayerEvent[];
@@ -106,6 +107,81 @@ export default function EditMatch() {
     setter((prev) => ({ ...prev, [team]: updated }));
   };
 
+  const updatePlayers = async () => {
+    const allPlayers = [
+      ...scorers.team1.map((p) => ({
+        player_id: p.player_id,
+        data: { goals: p.count },
+      })),
+      ...scorers.team2.map((p) => ({
+        player_id: p.player_id,
+        data: { goals: p.count },
+      })),
+      ...yellows.team1.map((p) => ({
+        player_id: p.player_id,
+        data: { yellow_cards: p.count },
+      })),
+      ...yellows.team2.map((p) => ({
+        player_id: p.player_id,
+        data: { yellow_cards: p.count },
+      })),
+      ...reds.team1.map((p) => ({
+        player_id: p.player_id,
+        data: { red_cards: p.count },
+      })),
+      ...reds.team2.map((p) => ({
+        player_id: p.player_id,
+        data: { red_cards: p.count },
+      })),
+    ];
+
+    try {
+      for (const { player_id, data } of allPlayers) {
+        await fetch(`http://localhost:4000/players/${player_id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      }
+
+      alert("Vsi igralci uspešno posodobljeni.");
+    } catch (err) {
+      console.error("Napaka pri posodabljanju igralcev:", err);
+      alert("Napaka pri shranjevanju.");
+    }
+  };
+
+  const updateTeamDraw = async () => {
+    const res = await fetch(`http://localhost:4000/teams/${team1Id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        points: team1!.points + 1,
+        goals_scored: team1!.goals_scored + goals.team1_goals,
+        goals_conceded: team1!.goals_conceded + goals.team2_goals,
+        goals_diff: team1!.goals_diff + (goals.team1_goals - goals.team2_goals),
+        draws: team1!.draws + 1,
+        matches_played: team1!.matches_played + 1,
+      }),
+    });
+
+    const res1 = await fetch(`http://localhost:4000/teams/${team2Id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        points: team2!.points + 1,
+        goals_scored: team2!.goals_scored + goals.team2_goals,
+        goals_conceded: team2!.goals_conceded + goals.team1_goals,
+        goals_diff: team2!.goals_diff + (goals.team2_goals - goals.team1_goals),
+        draws: team2!.draws + 1,
+        matches_played: team2!.matches_played + 1,
+      }),
+    });
+
+    if (res.ok && res1.ok) alert("Shranjeno!");
+    else alert("Napaka pri shranjevanju");
+  };
+
   const updateTeam = async (winner: string) => {
     let points = 0;
     let wins = 0;
@@ -120,17 +196,41 @@ export default function EditMatch() {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        points: team1.points + points,
-        goals_scored: team1.goals_scored + goals.team1_goals,
-        goals_conceded: team1.goals_conceded + goals.team2_goals,
-        goals_diff: team1.goals_diff + (goals.team1_goals - goals.team2_goals),
-        wins: team1.wins + wins,
-        losses: team1.losses + losses,
-        matches_played: team1.matches_played + 1,
+        points: team1!.points + points,
+        goals_scored: team1!.goals_scored + goals.team1_goals,
+        goals_conceded: team1!.goals_conceded + goals.team2_goals,
+        goals_diff: team1!.goals_diff + (goals.team1_goals - goals.team2_goals),
+        wins: team1!.wins + wins,
+        losses: team1!.losses + losses,
+        matches_played: team1!.matches_played + 1,
       }),
     });
 
-    if (res.ok) alert("Shranjeno!");
+    let pointsT2 = 0;
+    let winsT2 = 0;
+    let lossesT2 = 0;
+    if (winner === team2Id) {
+      pointsT2 = 3;
+      winsT2 = 1;
+    } else {
+      lossesT2 = 1;
+    }
+
+    const res1 = await fetch(`http://localhost:4000/teams/${team2Id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        points: team2!.points + pointsT2,
+        goals_scored: team2!.goals_scored + goals.team2_goals,
+        goals_conceded: team2!.goals_conceded + goals.team1_goals,
+        goals_diff: team2!.goals_diff + (goals.team2_goals - goals.team1_goals),
+        wins: team2!.wins + winsT2,
+        losses: team2!.losses + lossesT2,
+        matches_played: team2!.matches_played + 1,
+      }),
+    });
+
+    if (res.ok && res1.ok) alert("Shranjeno!");
     else alert("Napaka pri shranjevanju");
   };
 
@@ -188,6 +288,7 @@ export default function EditMatch() {
           cards: e.count,
         })),
         match_status: match_status,
+        advantage: advantage,
         winner: winner,
       }),
     });
@@ -195,12 +296,19 @@ export default function EditMatch() {
     if (res.ok) alert("Shranjeno!");
     else alert("Napaka pri shranjevanju");
 
-    if (isFinished && isGroupStage && winner != null) {
-      updateTeam(winner);
+    if (isFinished && isGroupStage) {
+      if (winner != null) {
+        updateTeam(winner);
+      } else {
+        updateTeamDraw();
+      }
+    }
+    if (isFinished && !isGroupStage) {
+      updatePlayers();
     }
   };
 
-  if (!match) return <div>Nalaganje...</div>;
+  if (!match || !team1 || !team2) return <div>Nalaganje...</div>;
 
   return (
     <div className="p-4 max-w-5xl mx-auto space-y-6">
@@ -258,6 +366,21 @@ export default function EditMatch() {
         className="form-checkbox h-5 w-5 text-[#b3542d] border-gray-300 rounded focus:ring-2 focus:ring-orange-300 ml-2"
       />
       <label />
+      <div>
+        {" "}
+        <button
+          onClick={() => setAdvantage(team1Id)}
+          className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700"
+        >
+          {match.team1_name}
+        </button>
+        <button
+          onClick={() => setAdvantage(team2Id)}
+          className="bg-green-600 text-white ml-10 px-6 py-2 rounded hover:bg-green-700"
+        >
+          {match.team2_name}
+        </button>
+      </div>
     </div>
   );
 }
