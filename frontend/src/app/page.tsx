@@ -31,7 +31,7 @@ export default function Home() {
               Turnir Vojnik 2025
             </h2>
             <p className="text-blue-900 mb-2 text-sm sm:text-base">
-              27. junij 2025, Vojnik
+              28. junij 2025, Vojnik
             </p>
             <Countdown />
           </div>
