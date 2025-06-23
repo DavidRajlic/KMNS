@@ -129,14 +129,11 @@ type SectionProps = {
 };
 
 function Section({ items, type }: SectionProps) {
-  if (items.length === 0) return null;
-  {
-    console.log(items);
-  }
+  if (items?.length === 0) return null;
   return (
     <div className="rounded-xl bg-gradient-to-r from-slate-50 to-gray-50">
       <ul className="space-y-1 p-2">
-        {items.map((p) => (
+        {items?.map((p) => (
           <li
             key={p.player_id}
             className="flex flex-wrap items-center justify-between gap-x-0 gap-y-1 sm:text-base text-sm sm:pb-1 pb-3 px-2 py-1 rounded-lg hover:bg-white/60 transition-colors duration-200"
