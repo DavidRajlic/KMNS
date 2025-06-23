@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Match = {
   _id: string;
@@ -24,6 +25,7 @@ type Match = {
 };
 
 export default function MatchesPage() {
+  const router = useRouter();
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedStage, setSelectedStage] = useState<string>("all");
@@ -40,16 +42,14 @@ export default function MatchesPage() {
         setLoading(false);
       });
   }, []);
-  // Pridobi unikatne stage-e za filter
+
   const stages = [...new Set(matches.map((match) => match.stage))];
 
-  // Filtriraj tekme glede na izbrani stage
   const filteredMatches =
     selectedStage === "all"
       ? matches
       : matches.filter((match) => match.stage === selectedStage);
 
-  // Grupiraj tekme po rundi/datumu (če ni round, uporabi stage)
   const groupedMatches = filteredMatches.reduce<Record<string, Match[]>>(
     (acc, match) => {
       const groupKey = match.round || match.stage;
@@ -60,20 +60,17 @@ export default function MatchesPage() {
     {}
   );
 
-  // Funkcija za formatiranje runde/datuma
   const formatRoundTitle = (roundKey: string) => {
     if (roundKey.includes("krog")) {
-      return roundKey; // "2. krog skupinskega dela"
+      return roundKey;
     }
-    return roundKey.charAt(0).toUpperCase() + roundKey.slice(1); // "Četrtfinale"
+    return roundKey.charAt(0).toUpperCase() + roundKey.slice(1);
   };
 
-  // Funkcija za formatiranje časa
   const formatTime = (timeString: string) => {
-    return timeString; // Že v pravilnem formatu "19:00"
+    return timeString;
   };
 
-  // Funkcija za barvo stage-a
   const getStageColor = (stage: string) => {
     const stageColors: Record<string, string> = {
       skupine: "bg-blue-100 text-blue-800 border-blue-300",
@@ -85,6 +82,10 @@ export default function MatchesPage() {
       stageColors[stage.toLowerCase()] ||
       "bg-gray-100 text-gray-800 border-gray-300"
     );
+  };
+
+  const handleMatchClick = (teamId: string) => {
+    router.push(`matches/${teamId}`);
   };
 
   // Funkcija za status tekme
@@ -203,6 +204,7 @@ export default function MatchesPage() {
                     .map((match) => (
                       <div
                         key={match._id}
+                        onClick={() => handleMatchClick(match._id)}
                         className="p-3 sm:p-4 md:p-6 hover:bg-blue-50 transition-colors duration-200"
                       >
                         {/* Mobile Layout (< sm) */}
