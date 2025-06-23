@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 type Match = {
@@ -29,6 +29,8 @@ export default function MatchesPage() {
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedStage, setSelectedStage] = useState<string>("all");
+  const liveMatchRef = useRef<HTMLDivElement | null>(null);
+  const playedMatchRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     fetch("http://localhost:4000/matches")
@@ -42,6 +44,20 @@ export default function MatchesPage() {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (matches.length > 0 && liveMatchRef.current) {
+      liveMatchRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else if (matches.length > 0 && playedMatchRef.current) {
+      playedMatchRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [matches]);
 
   const stages = [...new Set(matches.map((match) => match.stage))];
 
@@ -204,6 +220,13 @@ export default function MatchesPage() {
                     .map((match) => (
                       <div
                         key={match._id}
+                        ref={
+                          match.match_status === "played"
+                            ? playedMatchRef
+                            : match.match_status === "live"
+                            ? liveMatchRef
+                            : null
+                        }
                         onClick={() => handleMatchClick(match._id)}
                         className="p-3 sm:p-4 md:p-6 hover:bg-blue-50 transition-colors duration-200"
                       >
@@ -307,19 +330,6 @@ export default function MatchesPage() {
                               </span>
                             )}
                           </div>
-
-                          {/* Strelci - če je tekma odigrana */}
-                          {match.match_status === "played" &&
-                            match.team1_scorers.length > 0 && (
-                              <div className="mt-3 text-xs text-gray-600 text-center border-t pt-2">
-                                <div>
-                                  <strong>Strelci:</strong>{" "}
-                                  {match.team1_scorers
-                                    .map((scorer) => scorer.player_name)
-                                    .join(", ")}
-                                </div>
-                              </div>
-                            )}
                         </div>
 
                         {/* Desktop Layout (>= sm) */}
@@ -396,21 +406,6 @@ export default function MatchesPage() {
                                   </div>
                                 </div>
                               </div>
-
-                              {/* Strelci - če je tekma odigrana */}
-                              {match.match_status === "played" &&
-                                match.team1_scorers.length > 0 && (
-                                  <div className="mt-3 text-sm text-gray-600 text-center">
-                                    <div className="flex justify-center space-x-4">
-                                      <div>
-                                        <strong>Strelci:</strong>{" "}
-                                        {match.team1_scorers
-                                          .map((scorer) => scorer.player_name)
-                                          .join(", ")}
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
                             </div>
 
                             {/* Stage in grupa */}
