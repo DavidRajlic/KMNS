@@ -36,7 +36,7 @@ export default function ScorersPage() {
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2 drop-shadow-lg">
-            ⚽ LESTVICA STRELCEV ⚽
+            LESTVICA STRELCEV
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-blue-200 mx-auto rounded-full"></div>
         </div>
