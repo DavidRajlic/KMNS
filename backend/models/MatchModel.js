@@ -29,7 +29,7 @@ const MatchSchema = new Schema({
     {
       player_id: { type: Schema.Types.ObjectId, ref: "Player" },
       player_name: String,
-      cards: Number,
+      y_cards: Number,
     },
   ],
 
@@ -37,7 +37,7 @@ const MatchSchema = new Schema({
     {
       player_id: { type: Schema.Types.ObjectId, ref: "Player" },
       player_name: String,
-      cards: Number,
+      y_cards: Number,
     },
   ],
 
@@ -45,7 +45,7 @@ const MatchSchema = new Schema({
     {
       player_id: { type: Schema.Types.ObjectId, ref: "Player" },
       player_name: String,
-      cards: Number,
+      r_cards: Number,
     },
   ],
 
@@ -53,7 +53,7 @@ const MatchSchema = new Schema({
     {
       player_id: { type: Schema.Types.ObjectId, ref: "Player" },
       player_name: String,
-      cards: Number,
+      r_cards: Number,
     },
   ],
   stage: {
