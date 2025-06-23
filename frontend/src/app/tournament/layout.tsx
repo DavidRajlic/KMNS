@@ -8,7 +8,7 @@ export default function TournamentLayout({
   return (
     <div>
       <Navbar />
-      <main className="p-4">{children}</main>
+      <main className="p-0">{children}</main>
     </div>
   );
 }
