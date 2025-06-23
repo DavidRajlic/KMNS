@@ -63,7 +63,8 @@ export default function CreateMatchPage() {
     if (selectedTeams.length < 2) setSelectedTeams([...selectedTeams, team]);
   };
 
-  const deleteMatch = async (id: string) => {
+  const deleteMatch = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!confirm("Ali res želiš izbrisati to tekmo?")) return;
     try {
       const res = await fetch(`http://localhost:4000/matches/${id}`, {
@@ -77,7 +78,8 @@ export default function CreateMatchPage() {
     }
   };
 
-  const handleEditMatch = (match: Match, id: string) => {
+  const handleEditMatch = (match: Match, id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     setMatchTime(match.match_time_display);
     setStage(match.stage as MatchStage);
     setMode("edit");
@@ -230,13 +232,13 @@ export default function CreateMatchPage() {
 
             <div className="flex gap-2">
               <button
-                onClick={() => deleteMatch(match._id)}
+                onClick={(e) => deleteMatch(match._id, e)}
                 className="text-red-600 hover:text-red-800 text-sm"
               >
                 Izbriši
               </button>
               <button
-                onClick={() => handleEditMatch(match, match._id)}
+                onClick={(e) => handleEditMatch(match, match._id, e)}
                 className="text-blue-600 hover:text-blue-800 text-sm"
               >
                 Uredi
