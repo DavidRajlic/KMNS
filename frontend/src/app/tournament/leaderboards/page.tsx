@@ -88,7 +88,7 @@ export default function LeaderboardsPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
           {Object.entries(groups)
             .sort(([a], [b]) => a.localeCompare(b))
             .map(([groupName, groupTeams]) => (
