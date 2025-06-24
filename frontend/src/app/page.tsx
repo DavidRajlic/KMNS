@@ -35,7 +35,7 @@ export default function Home() {
             <Countdown />
           </div>
 
-          <Link href="/tournament/admin/teams" className="w-full sm:w-auto">
+          <Link href="/tournament/matches" className="w-full sm:w-auto">
             <button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-all">
               Oglej si podatke turnirja
             </button>
