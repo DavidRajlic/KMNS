@@ -80,10 +80,13 @@ export default function TeamsPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4 text-center">Seznam ekip</h1>
+  <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-6">
+    <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6">
+      <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
+        Seznam ekip
+      </h1>
 
-      <div className="flex gap-2 mb-6">
+      <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <input
           type="text"
           placeholder="Vpiši ime ekipe"
@@ -94,7 +97,7 @@ export default function TeamsPage() {
         <button
           onClick={handleAddTeam}
           disabled={loading}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:opacity-50"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:opacity-50 transition"
         >
           {loading ? "Dodajanje..." : "Dodaj"}
         </button>
@@ -102,14 +105,14 @@ export default function TeamsPage() {
 
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
-      <ul className="grid grid-cols-1 gap-3">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {teams.map((team) => (
           <li
             key={team._id}
-            className="bg-white shadow-md rounded-lg px-4 py-3 border border-gray-100 flex justify-between items-center hover:bg-gray-50 cursor-pointer transition-colors"
+            className="bg-white shadow-sm rounded-lg px-4 py-3 border border-gray-100 flex justify-between items-center hover:bg-gray-50 cursor-pointer transition-colors"
             onClick={() => handleTeamClick(team._id)}
           >
-            <span className="font-medium">{team.name}</span>
+            <span className="font-medium text-gray-800">{team.name}</span>
             <button
               onClick={(e) => handleDeleteTeam(team._id, e)}
               className="text-red-500 hover:text-red-700 text-2xl font-bold cursor-pointer px-2 hover:bg-red-100 rounded-full"
@@ -120,5 +123,7 @@ export default function TeamsPage() {
         ))}
       </ul>
     </div>
-  );
+  </div>
+);
+
 }

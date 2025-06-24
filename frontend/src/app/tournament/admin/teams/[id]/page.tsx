@@ -26,11 +26,12 @@ export default function TeamPlayersPage() {
   const [playerNameInput, setPlayerNameInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const API_URL = process.env.NEXT_PUBLIC_API;
 
   const fetchTeam = async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${teamId}`
+        `${API_URL}/teams/${teamId}`
       );
       if (!res.ok) throw new Error("Napaka pri pridobivanju ekipe");
       const data = await res.json();
@@ -44,7 +45,7 @@ export default function TeamPlayersPage() {
   const fetchPlayers = async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/players/team/${teamId}`
+        `${API_URL}/players/team/${teamId}`
       );
       if (!res.ok) throw new Error("Napaka pri pridobivanju igralcev");
       const data = await res.json();
@@ -70,7 +71,7 @@ export default function TeamPlayersPage() {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/players`,
+        `${API_URL}/players`,
         {
           method: "POST",
           headers: {
@@ -102,7 +103,7 @@ export default function TeamPlayersPage() {
   const handleDeletePlayer = async (playerId: string) => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/players/${playerId}`,
+        `${API_URL}/players/${playerId}`,
         {
           method: "DELETE",
         }
@@ -118,11 +119,12 @@ export default function TeamPlayersPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+  <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-6">
+    <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6">
       <div className="flex items-center mb-6">
         <button
           onClick={() => router.back()}
-          className="mr-4 px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-md text-sm transition"
+          className="mr-4 text-black px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-md text-sm transition"
         >
           ← Nazaj
         </button>
@@ -137,7 +139,7 @@ export default function TeamPlayersPage() {
           placeholder="Vpiši ime igralca"
           value={playerNameInput}
           onChange={(e) => setPlayerNameInput(e.target.value)}
-          className="flex-grow px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-grow px-4 text-black py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           onClick={handleAddPlayer}
@@ -178,7 +180,7 @@ export default function TeamPlayersPage() {
                   key={player._id}
                   className="border-t border-gray-200 hover:bg-gray-50 transition"
                 >
-                  <td className="py-3 px-6 font-semibold">{player.name}</td>
+                  <td className="py-3 text-black px-6 font-semibold">{player.name}</td>
                   <td className="py-3 px-6 text-center">{player.goals}</td>
                   <td className="py-3 px-6 text-center">
                     {player.yellow_cards}
@@ -200,5 +202,6 @@ export default function TeamPlayersPage() {
         </table>
       </div>
     </div>
-  );
-}
+  </div>
+)
+};
