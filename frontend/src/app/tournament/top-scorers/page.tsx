@@ -13,7 +13,9 @@ export default function ScorersPage() {
 
   useEffect(() => {
     const fetchPlayers = async () => {
-      const res = await fetch("http://localhost:4000/players");
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/players`
+      );
       const data = await res.json();
 
       const sorted = data

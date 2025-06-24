@@ -33,7 +33,7 @@ export default function MatchesPage() {
   const playedMatchRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:4000/matches")
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/matches`)
       .then((res) => res.json())
       .then((data) => {
         setMatches(data);
@@ -103,7 +103,7 @@ export default function MatchesPage() {
   const handleMatchClick = (teamId: string, match_status: string) => {
     if (match_status != "notPlayed") {
       router.push(`matches/${teamId}`);
-    }  
+    }
   };
 
   // Funkcija za status tekme
@@ -229,7 +229,9 @@ export default function MatchesPage() {
                             ? liveMatchRef
                             : null
                         }
-                        onClick={() => handleMatchClick(match._id, match.match_status)}
+                        onClick={() =>
+                          handleMatchClick(match._id, match.match_status)
+                        }
                         className="p-3 sm:p-4 md:p-6 hover:bg-blue-50 transition-colors duration-200"
                       >
                         {/* Mobile Layout (< sm) */}

@@ -29,7 +29,9 @@ export default function TeamPlayersPage() {
 
   const fetchTeam = async () => {
     try {
-      const res = await fetch(`http://localhost:4000/teams/${teamId}`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${teamId}`
+      );
       if (!res.ok) throw new Error("Napaka pri pridobivanju ekipe");
       const data = await res.json();
       setTeam(data);
@@ -41,7 +43,9 @@ export default function TeamPlayersPage() {
 
   const fetchPlayers = async () => {
     try {
-      const res = await fetch(`http://localhost:4000/players/team/${teamId}`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/players/team/${teamId}`
+      );
       if (!res.ok) throw new Error("Napaka pri pridobivanju igralcev");
       const data = await res.json();
       setPlayers(data);
@@ -65,20 +69,23 @@ export default function TeamPlayersPage() {
     setError(null);
 
     try {
-      const res = await fetch(`http://localhost:4000/players`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: playerNameInput,
-          goals: 0,
-          yellow_cards: 0,
-          red_cards: 0,
-          team_id: teamId,
-          team_name: team?.name,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/players`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: playerNameInput,
+            goals: 0,
+            yellow_cards: 0,
+            red_cards: 0,
+            team_id: teamId,
+            team_name: team?.name,
+          }),
+        }
+      );
 
       if (!res.ok) throw new Error("Napaka pri dodajanju igralca.");
 
@@ -94,9 +101,12 @@ export default function TeamPlayersPage() {
 
   const handleDeletePlayer = async (playerId: string) => {
     try {
-      const res = await fetch(`http://localhost:4000/players/${playerId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/players/${playerId}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!res.ok) throw new Error("Napaka pri brisanju igralca.");
 

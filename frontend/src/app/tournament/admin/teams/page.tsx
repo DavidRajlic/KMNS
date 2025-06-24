@@ -13,10 +13,11 @@ export default function TeamsPage() {
   const [teamNameInput, setTeamNameInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const API_URL = process.env.NEXT_PUBLIC_API;
 
   const fetchTeams = async () => {
     try {
-      const res = await fetch("http://localhost:4000/teams");
+      const res = await fetch(`${API_URL}/teams`);
       if (!res.ok) throw new Error("Napaka pri pridobivanju ekip");
       const data = await res.json();
       setTeams(data);
@@ -37,7 +38,7 @@ export default function TeamsPage() {
     setError(null);
 
     try {
-      const res = await fetch("http://localhost:4000/teams", {
+      const res = await fetch(`${API_URL}/teams`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +62,7 @@ export default function TeamsPage() {
     e.stopPropagation(); // Prepreči navigacijo, ko kliknemo delete
 
     try {
-      const res = await fetch(`http://localhost:4000/teams/${id}`, {
+      const res = await fetch(`${API_URL}/teams/${id}`, {
         method: "DELETE",
       });
 

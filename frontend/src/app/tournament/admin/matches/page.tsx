@@ -34,13 +34,13 @@ export default function CreateMatchPage() {
   const [id, setId] = useState<string>("");
 
   const fetchTeams = async () => {
-    const res = await fetch("http://localhost:4000/teams");
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teams`);
     const data = await res.json();
     setTeams(data);
   };
 
   const fetchMatches = async () => {
-    const res = await fetch("http://localhost:4000/matches");
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/matches`);
     const data = await res.json();
     const sorted = data.sort(
       (a: Match, b: Match) => a.match_time_sort - b.match_time_sort
@@ -67,9 +67,12 @@ export default function CreateMatchPage() {
     e.stopPropagation();
     if (!confirm("Ali res želiš izbrisati to tekmo?")) return;
     try {
-      const res = await fetch(`http://localhost:4000/matches/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://kmns-production.up.railway.app/matches/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (!res.ok) throw new Error("Napaka pri brisanju tekme");
       setMatches((prev) => prev.filter((m) => m._id !== id));
     } catch (err) {
@@ -127,13 +130,13 @@ export default function CreateMatchPage() {
     };
 
     if (mode === "edit") {
-      await fetch(`http://localhost:4000/matches/${id}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/matches/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(match),
       });
     } else {
-      await fetch("http://localhost:4000/matches", {
+      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/matches`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(match),

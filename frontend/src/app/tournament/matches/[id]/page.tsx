@@ -32,7 +32,9 @@ export default function MatchDetailsPage() {
 
   useEffect(() => {
     const fetchMatch = async () => {
-      const res = await fetch(`http://localhost:4000/matches/${matchId}`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/matches/${matchId}`
+      );
       const data = await res.json();
       console.log(data);
       setMatch(data);

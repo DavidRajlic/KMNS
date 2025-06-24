@@ -19,7 +19,7 @@ export default function GroupsPage() {
 
   const fetchTeams = async () => {
     try {
-      const res = await fetch("http://localhost:4000/teams");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teams`);
       if (!res.ok) throw new Error("Napaka pri pridobivanju ekip");
       const data = await res.json();
       setTeams(data);
@@ -42,7 +42,7 @@ export default function GroupsPage() {
     setLoading(true);
     try {
       for (const [teamId, group] of Object.entries(updatedTeams)) {
-        await fetch(`http://localhost:4000/teams/${teamId}`, {
+        await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${teamId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -66,62 +66,61 @@ export default function GroupsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 p-6">
-  <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-2xl p-6">
-    <h1 className="text-2xl font-bold mb-4 text-center text-blue-900">
-      Razporeditev v skupine
-    </h1>
+      <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-2xl p-6">
+        <h1 className="text-2xl font-bold mb-4 text-center text-blue-900">
+          Razporeditev v skupine
+        </h1>
 
-    <div className="flex justify-center gap-2 mb-6">
-      {["A", "B", "C", "D"].map((group) => (
+        <div className="flex justify-center gap-2 mb-6">
+          {["A", "B", "C", "D"].map((group) => (
+            <button
+              key={group}
+              onClick={() => setSelectedGroup(group as "A" | "B" | "C" | "D")}
+              className={`px-4 py-2 rounded-md font-semibold cursor-pointer transition ${
+                selectedGroup === group
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              }`}
+            >
+              Skupina {group}
+            </button>
+          ))}
+        </div>
+
+        {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+
+        <ul className="grid grid-cols-2 gap-4 mb-4">
+          {teams.map((team) => {
+            const tempGroup = updatedTeams[team._id];
+            const currentGroup = tempGroup || team.group;
+
+            return (
+              <li
+                key={team._id}
+                onClick={() => toggleTeamGroup(team._id)}
+                className={`cursor-pointer px-4 py-3 rounded-lg border shadow-sm flex justify-between items-center transition ${
+                  tempGroup
+                    ? "bg-green-100 border-green-300"
+                    : "bg-white border-gray-200 hover:bg-gray-50"
+                }`}
+              >
+                <span className="font-medium text-gray-800">{team.name}</span>
+                <span className="text-sm text-gray-500">
+                  {currentGroup ? `Skupina ${currentGroup}` : "Ni v skupini"}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+
         <button
-          key={group}
-          onClick={() => setSelectedGroup(group as "A" | "B" | "C" | "D")}
-          className={`px-4 py-2 rounded-md font-semibold cursor-pointer transition ${
-            selectedGroup === group
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-          }`}
+          onClick={confirmGroups}
+          disabled={loading || Object.keys(updatedTeams).length === 0}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold disabled:opacity-50"
         >
-          Skupina {group}
+          {loading ? "Shranjujem..." : "Potrdi skupine"}
         </button>
-      ))}
+      </div>
     </div>
-
-    {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-
-    <ul className="grid grid-cols-2 gap-4 mb-4">
-      {teams.map((team) => {
-        const tempGroup = updatedTeams[team._id];
-        const currentGroup = tempGroup || team.group;
-
-        return (
-          <li
-            key={team._id}
-            onClick={() => toggleTeamGroup(team._id)}
-            className={`cursor-pointer px-4 py-3 rounded-lg border shadow-sm flex justify-between items-center transition ${
-              tempGroup
-                ? "bg-green-100 border-green-300"
-                : "bg-white border-gray-200 hover:bg-gray-50"
-            }`}
-          >
-            <span className="font-medium text-gray-800">{team.name}</span>
-            <span className="text-sm text-gray-500">
-              {currentGroup ? `Skupina ${currentGroup}` : "Ni v skupini"}
-            </span>
-          </li>
-        );
-      })}
-    </ul>
-
-    <button
-      onClick={confirmGroups}
-      disabled={loading || Object.keys(updatedTeams).length === 0}
-      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold disabled:opacity-50"
-    >
-      {loading ? "Shranjujem..." : "Potrdi skupine"}
-    </button>
-  </div>
-</div>
-
   );
 }

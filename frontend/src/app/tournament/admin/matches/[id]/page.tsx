@@ -51,7 +51,9 @@ export default function EditMatch() {
 
   useEffect(() => {
     const load = async () => {
-      const res = await fetch(`http://localhost:4000/matches/${matchId}`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/matches/${matchId}`
+      );
       const data = await res.json();
       setMatch(data);
       setGoals({
@@ -60,15 +62,19 @@ export default function EditMatch() {
       });
 
       const [t1, t2] = await Promise.all([
-        fetch(`http://localhost:4000/teams/${data.team1_id}`),
-        fetch(`http://localhost:4000/teams/${data.team2_id}`),
+        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${data.team1_id}`),
+        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${data.team2_id}`),
       ]);
       setTeam1(await t1.json());
       setTeam2(await t2.json());
 
       const [res1, res2] = await Promise.all([
-        fetch(`http://localhost:4000/players/team/${data.team1_id}`),
-        fetch(`http://localhost:4000/players/team/${data.team2_id}`),
+        fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/players/team/${data.team1_id}`
+        ),
+        fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/players/team/${data.team2_id}`
+        ),
       ]);
 
       setPlayers1(await res1.json());
@@ -137,11 +143,14 @@ export default function EditMatch() {
 
     try {
       for (const { player_id, data } of allPlayers) {
-        await fetch(`http://localhost:4000/players/${player_id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/players/${player_id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          }
+        );
       }
 
       alert("Vsi igralci uspešno posodobljeni.");
@@ -152,31 +161,39 @@ export default function EditMatch() {
   };
 
   const updateTeamDraw = async () => {
-    const res = await fetch(`http://localhost:4000/teams/${team1Id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        points: team1!.points + 1,
-        goals_scored: team1!.goals_scored + goals.team1_goals,
-        goals_conceded: team1!.goals_conceded + goals.team2_goals,
-        goals_diff: team1!.goals_diff + (goals.team1_goals - goals.team2_goals),
-        draws: team1!.draws + 1,
-        matches_played: team1!.matches_played + 1,
-      }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${team1Id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          points: team1!.points + 1,
+          goals_scored: team1!.goals_scored + goals.team1_goals,
+          goals_conceded: team1!.goals_conceded + goals.team2_goals,
+          goals_diff:
+            team1!.goals_diff + (goals.team1_goals - goals.team2_goals),
+          draws: team1!.draws + 1,
+          matches_played: team1!.matches_played + 1,
+        }),
+      }
+    );
 
-    const res1 = await fetch(`http://localhost:4000/teams/${team2Id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        points: team2!.points + 1,
-        goals_scored: team2!.goals_scored + goals.team2_goals,
-        goals_conceded: team2!.goals_conceded + goals.team1_goals,
-        goals_diff: team2!.goals_diff + (goals.team2_goals - goals.team1_goals),
-        draws: team2!.draws + 1,
-        matches_played: team2!.matches_played + 1,
-      }),
-    });
+    const res1 = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${team2Id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          points: team2!.points + 1,
+          goals_scored: team2!.goals_scored + goals.team2_goals,
+          goals_conceded: team2!.goals_conceded + goals.team1_goals,
+          goals_diff:
+            team2!.goals_diff + (goals.team2_goals - goals.team1_goals),
+          draws: team2!.draws + 1,
+          matches_played: team2!.matches_played + 1,
+        }),
+      }
+    );
 
     if (res.ok && res1.ok) alert("Shranjeno!");
     else alert("Napaka pri shranjevanju");
@@ -192,19 +209,23 @@ export default function EditMatch() {
     } else {
       losses = 1;
     }
-    const res = await fetch(`http://localhost:4000/teams/${team1Id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        points: team1!.points + points,
-        goals_scored: team1!.goals_scored + goals.team1_goals,
-        goals_conceded: team1!.goals_conceded + goals.team2_goals,
-        goals_diff: team1!.goals_diff + (goals.team1_goals - goals.team2_goals),
-        wins: team1!.wins + wins,
-        losses: team1!.losses + losses,
-        matches_played: team1!.matches_played + 1,
-      }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${team1Id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          points: team1!.points + points,
+          goals_scored: team1!.goals_scored + goals.team1_goals,
+          goals_conceded: team1!.goals_conceded + goals.team2_goals,
+          goals_diff:
+            team1!.goals_diff + (goals.team1_goals - goals.team2_goals),
+          wins: team1!.wins + wins,
+          losses: team1!.losses + losses,
+          matches_played: team1!.matches_played + 1,
+        }),
+      }
+    );
 
     let pointsT2 = 0;
     let winsT2 = 0;
@@ -216,19 +237,23 @@ export default function EditMatch() {
       lossesT2 = 1;
     }
 
-    const res1 = await fetch(`http://localhost:4000/teams/${team2Id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        points: team2!.points + pointsT2,
-        goals_scored: team2!.goals_scored + goals.team2_goals,
-        goals_conceded: team2!.goals_conceded + goals.team1_goals,
-        goals_diff: team2!.goals_diff + (goals.team2_goals - goals.team1_goals),
-        wins: team2!.wins + winsT2,
-        losses: team2!.losses + lossesT2,
-        matches_played: team2!.matches_played + 1,
-      }),
-    });
+    const res1 = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${team2Id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          points: team2!.points + pointsT2,
+          goals_scored: team2!.goals_scored + goals.team2_goals,
+          goals_conceded: team2!.goals_conceded + goals.team1_goals,
+          goals_diff:
+            team2!.goals_diff + (goals.team2_goals - goals.team1_goals),
+          wins: team2!.wins + winsT2,
+          losses: team2!.losses + lossesT2,
+          matches_played: team2!.matches_played + 1,
+        }),
+      }
+    );
 
     if (res.ok && res1.ok) alert("Shranjeno!");
     else alert("Napaka pri shranjevanju");
@@ -251,47 +276,50 @@ export default function EditMatch() {
       match_status = "notPlayed";
     }
 
-    const res = await fetch(`http://localhost:4000/matches/${matchId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        team1_goals: goals.team1_goals,
-        team2_goals: goals.team2_goals,
-        team1_scorers: scorers.team1.map((e) => ({
-          player_id: e.player_id,
-          player_name: e.player_name,
-          goals: e.count,
-        })),
-        team2_scorers: scorers.team2.map((e) => ({
-          player_id: e.player_id,
-          player_name: e.player_name,
-          goals: e.count,
-        })),
-        team1_yellow_cards: yellows.team1.map((e) => ({
-          player_id: e.player_id,
-          player_name: e.player_name,
-          cards: e.count,
-        })),
-        team2_yellow_cards: yellows.team2.map((e) => ({
-          player_id: e.player_id,
-          player_name: e.player_name,
-          cards: e.count,
-        })),
-        team1_red_cards: reds.team1.map((e) => ({
-          player_id: e.player_id,
-          player_name: e.player_name,
-          cards: e.count,
-        })),
-        team2_red_cards: reds.team2.map((e) => ({
-          player_id: e.player_id,
-          player_name: e.player_name,
-          cards: e.count,
-        })),
-        match_status: match_status,
-        advantage: advantage,
-        winner: winner,
-      }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/matches/${matchId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          team1_goals: goals.team1_goals,
+          team2_goals: goals.team2_goals,
+          team1_scorers: scorers.team1.map((e) => ({
+            player_id: e.player_id,
+            player_name: e.player_name,
+            goals: e.count,
+          })),
+          team2_scorers: scorers.team2.map((e) => ({
+            player_id: e.player_id,
+            player_name: e.player_name,
+            goals: e.count,
+          })),
+          team1_yellow_cards: yellows.team1.map((e) => ({
+            player_id: e.player_id,
+            player_name: e.player_name,
+            cards: e.count,
+          })),
+          team2_yellow_cards: yellows.team2.map((e) => ({
+            player_id: e.player_id,
+            player_name: e.player_name,
+            cards: e.count,
+          })),
+          team1_red_cards: reds.team1.map((e) => ({
+            player_id: e.player_id,
+            player_name: e.player_name,
+            cards: e.count,
+          })),
+          team2_red_cards: reds.team2.map((e) => ({
+            player_id: e.player_id,
+            player_name: e.player_name,
+            cards: e.count,
+          })),
+          match_status: match_status,
+          advantage: advantage,
+          winner: winner,
+        }),
+      }
+    );
 
     if (res.ok) alert("Shranjeno!");
     else alert("Napaka pri shranjevanju");
@@ -381,7 +409,7 @@ export default function EditMatch() {
           {match.team2_name}
         </button>
       </div>
-      <p>  ADVANTAGE: {advantage}</p>
+      <p> ADVANTAGE: {advantage}</p>
     </div>
   );
 }
