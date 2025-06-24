@@ -381,6 +381,7 @@ export default function EditMatch() {
           {match.team2_name}
         </button>
       </div>
+      <p>  ADVANTAGE: {advantage}</p>
     </div>
   );
 }
