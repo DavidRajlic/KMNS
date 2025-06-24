@@ -31,6 +31,7 @@ app.get("/", (req, res) => {
   res.send("hello");
 });
 
-app.listen(port, () => {
-  console.log(`Strežnik posluša na http://localhost:${port}`);
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Strežnik posluša na http://localhost:${PORT}`);
 });
