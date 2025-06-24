@@ -4,9 +4,15 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
+ function logoutAdmin() {
+    document.cookie = "adminAccess=; Max-Age=0; path=/; secure; samesite=strict";
+    router.push("/");
+  }
 
   return (
     <nav className="bg-blue-600 shadow-md px-6 py-4">
@@ -27,27 +33,32 @@ export default function Navbar() {
           )}
         </button>
 
-        <ul className="hidden md:flex gap-6 text-white mr-5 font-medium">
+        <ul className="hidden md:flex gap-6 text-white font-medium">
           <li>
-            <Link href="/tournament/leaderboards">Lestvice</Link>
+            <Link href="/tournament/admin/teams">Ekipe</Link>
           </li>
           <li>
-            <Link href="/tournament/matches" onClick={() => setMenuOpen(false)}>
+            <Link href="/tournament/admin/matches" onClick={() => setMenuOpen(false)}>
               Tekme
             </Link>
           </li>
           <li>
-            <Link href="/tournament/top-scorers">Strelci</Link>
+            <Link href="/tournament/admin/groups">Skupine</Link>
           </li>
-          <li>
-            <Link href="/tournament/top-scorers">Sponzorji</Link>
-          </li>
+            <li>
+                <button onClick={logoutAdmin}>Odjava</button>
+            </li>
         </ul>
       </div>
 
       {menuOpen && (
         <div className="md:hidden mt-4">
           <ul className="flex flex-col gap-4 text-white font-medium">
+            <li>
+              <Link href="/" onClick={() => setMenuOpen(false)}>
+                Domov
+              </Link>
+            </li>
             <li>
               <Link
                 href="/tournament/leaderboards"
@@ -56,10 +67,17 @@ export default function Navbar() {
                 Lestvice
               </Link>
             </li>
-           
             <li>
               <Link
-                href="/tournament/matches"
+                href="/tournament/admin/groups"
+                onClick={() => setMenuOpen(false)}
+              >
+                Skupine
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/tournament/admin/matches"
                 onClick={() => setMenuOpen(false)}
               >
                 Tekme
@@ -71,14 +89,6 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
               >
                 Strelci
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/tournament/top-scorers"
-                onClick={() => setMenuOpen(false)}
-              >
-                Sponzorji
               </Link>
             </li>
           </ul>
