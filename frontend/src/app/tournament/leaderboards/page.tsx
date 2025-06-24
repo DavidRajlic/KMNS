@@ -10,19 +10,35 @@ type Team = {
   matches_played: number;
 };
 
+type Match = {
+  _id: string;
+  team1_id: string;
+  team2_id: string;
+  team1_goals: number;
+  team2_goals: number;
+  match_status: "played" | "notPlayed" | "live";
+  winner?: string;
+  advantage?: string;
+};
+
+
 export default function LeaderboardsPage() {
   const [teams, setTeams] = useState<Team[]>([]);
+  const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:4000/teams")
-      .then((res) => res.json())
-      .then((data) => {
-        setTeams(data);
+    Promise.all([
+      fetch("http://localhost:4000/teams").then((res) => res.json()),
+      fetch("http://localhost:4000/matches").then((res) => res.json()),
+    ])
+      .then(([teamsData, matchesData]) => {
+        setTeams(teamsData);
+        setMatches(matchesData);
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Napaka pri nalaganju ekip:", err);
+        console.error("Napaka pri nalaganju podatkov:", err);
         setLoading(false);
       });
   }, []);
@@ -134,20 +150,42 @@ export default function LeaderboardsPage() {
                     </thead>
                     <tbody className="divide-y divide-gray-100">
                       {groupTeams
-                        .sort(
-                          (a, b) =>
-                            b.points - a.points ||
-                            b.goals_diff - a.goals_diff ||
-                            a.name.localeCompare(b.name)
-                        )
+                        .sort((a, b) => {
+                          const pointsDiff = b.points - a.points;
+                          if (pointsDiff !== 0) return pointsDiff;
+
+                          // === IŠČEMO TEKMO MED A IN B ===
+                          const mutualMatch = matches.find(
+                            (match) =>
+                              ((match.team1_id === a._id && match.team2_id === b._id) ||
+                                (match.team1_id === b._id && match.team2_id === a._id)) &&
+                              match.match_status === "played"
+                          );
+
+                          // Če najdemo remi tekmo z zmagovalcem
+                          if (
+                            mutualMatch &&
+                            mutualMatch.team1_goals === mutualMatch.team2_goals &&
+                            mutualMatch.advantage
+                          ) {
+                            if (mutualMatch.advantage === a._id) return -1; // a gre višje
+                            if (mutualMatch.advantage === b._id) return 1; // b gre višje
+                          }
+
+                          // Nadaljuj po razliki golov
+                          const goalDiff = b.goals_diff - a.goals_diff;
+                          if (goalDiff !== 0) return goalDiff;
+
+                          // Nazadnje po imenu
+                          return a.name.localeCompare(b.name);
+                        }) // ← ta zaklepaj je bil manjkajoč
                         .map((team, i) => (
                           <tr
                             key={team._id}
-                            className={`transition-colors duration-200 ${
-                              i < 2 && team.matches_played > 2
+                            className={`transition-colors duration-200 ${i < 2 && team.matches_played > 2
                                 ? "bg-green-50 hover:bg-green-100 border-l-4 border-green-400"
                                 : "hover:bg-blue-50"
-                            }`}
+                              }`}
                           >
                             {/* Mesto */}
                             <td className="px-2 sm:px-3 py-3">
@@ -196,6 +234,7 @@ export default function LeaderboardsPage() {
                           </tr>
                         ))}
                     </tbody>
+
                   </table>
                 </div>
               </div>
