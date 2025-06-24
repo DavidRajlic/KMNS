@@ -29,12 +29,8 @@ export default function LeaderboardsPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teams`).then((res) =>
-        res.json()
-      ),
-      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/matches`).then((res) =>
-        res.json()
-      ),
+      fetch(`${process.env.NEXT_PUBLIC_API}/teams`).then((res) => res.json()),
+      fetch(`${process.env.NEXT_PUBLIC_API}/matches`).then((res) => res.json()),
     ])
       .then(([teamsData, matchesData]) => {
         setTeams(teamsData);

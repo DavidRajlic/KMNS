@@ -10,12 +10,11 @@ type Player = {
 
 export default function ScorersPage() {
   const [players, setPlayers] = useState<Player[]>([]);
+  const API_URL = process.env.NEXT_PUBLIC_API;
 
   useEffect(() => {
     const fetchPlayers = async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/players`
-      );
+      const res = await fetch(`${API_URL}/players`);
       const data = await res.json();
 
       const sorted = data

@@ -52,7 +52,7 @@ export default function EditMatch() {
   useEffect(() => {
     const load = async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/matches/${matchId}`
+        `${process.env.NEXT_PUBLIC_API}/matches/${matchId}`
       );
       const data = await res.json();
       setMatch(data);
@@ -62,19 +62,15 @@ export default function EditMatch() {
       });
 
       const [t1, t2] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${data.team1_id}`),
-        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${data.team2_id}`),
+        fetch(`${process.env.NEXT_PUBLIC_API}/teams/${data.team1_id}`),
+        fetch(`${process.env.NEXT_PUBLIC_API}/teams/${data.team2_id}`),
       ]);
       setTeam1(await t1.json());
       setTeam2(await t2.json());
 
       const [res1, res2] = await Promise.all([
-        fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/players/team/${data.team1_id}`
-        ),
-        fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/players/team/${data.team2_id}`
-        ),
+        fetch(`${process.env.NEXT_PUBLIC_API}/players/team/${data.team1_id}`),
+        fetch(`${process.env.NEXT_PUBLIC_API}/players/team/${data.team2_id}`),
       ]);
 
       setPlayers1(await res1.json());
@@ -143,14 +139,11 @@ export default function EditMatch() {
 
     try {
       for (const { player_id, data } of allPlayers) {
-        await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/players/${player_id}`,
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-          }
-        );
+        await fetch(`${process.env.NEXT_PUBLIC_API}/players/${player_id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
       }
 
       alert("Vsi igralci uspešno posodobljeni.");
@@ -161,25 +154,21 @@ export default function EditMatch() {
   };
 
   const updateTeamDraw = async () => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${team1Id}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          points: team1!.points + 1,
-          goals_scored: team1!.goals_scored + goals.team1_goals,
-          goals_conceded: team1!.goals_conceded + goals.team2_goals,
-          goals_diff:
-            team1!.goals_diff + (goals.team1_goals - goals.team2_goals),
-          draws: team1!.draws + 1,
-          matches_played: team1!.matches_played + 1,
-        }),
-      }
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/teams/${team1Id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        points: team1!.points + 1,
+        goals_scored: team1!.goals_scored + goals.team1_goals,
+        goals_conceded: team1!.goals_conceded + goals.team2_goals,
+        goals_diff: team1!.goals_diff + (goals.team1_goals - goals.team2_goals),
+        draws: team1!.draws + 1,
+        matches_played: team1!.matches_played + 1,
+      }),
+    });
 
     const res1 = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${team2Id}`,
+      `${process.env.NEXT_PUBLIC_API}/teams/${team2Id}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -209,23 +198,19 @@ export default function EditMatch() {
     } else {
       losses = 1;
     }
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${team1Id}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          points: team1!.points + points,
-          goals_scored: team1!.goals_scored + goals.team1_goals,
-          goals_conceded: team1!.goals_conceded + goals.team2_goals,
-          goals_diff:
-            team1!.goals_diff + (goals.team1_goals - goals.team2_goals),
-          wins: team1!.wins + wins,
-          losses: team1!.losses + losses,
-          matches_played: team1!.matches_played + 1,
-        }),
-      }
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/teams/${team1Id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        points: team1!.points + points,
+        goals_scored: team1!.goals_scored + goals.team1_goals,
+        goals_conceded: team1!.goals_conceded + goals.team2_goals,
+        goals_diff: team1!.goals_diff + (goals.team1_goals - goals.team2_goals),
+        wins: team1!.wins + wins,
+        losses: team1!.losses + losses,
+        matches_played: team1!.matches_played + 1,
+      }),
+    });
 
     let pointsT2 = 0;
     let winsT2 = 0;
@@ -238,7 +223,7 @@ export default function EditMatch() {
     }
 
     const res1 = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${team2Id}`,
+      `${process.env.NEXT_PUBLIC_API}/teams/${team2Id}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -277,7 +262,7 @@ export default function EditMatch() {
     }
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/matches/${matchId}`,
+      `${process.env.NEXT_PUBLIC_API}/matches/${matchId}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

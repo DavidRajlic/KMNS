@@ -19,7 +19,7 @@ export default function GroupsPage() {
 
   const fetchTeams = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teams`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API}/teams`);
       if (!res.ok) throw new Error("Napaka pri pridobivanju ekip");
       const data = await res.json();
       setTeams(data);
@@ -42,7 +42,7 @@ export default function GroupsPage() {
     setLoading(true);
     try {
       for (const [teamId, group] of Object.entries(updatedTeams)) {
-        await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teams/${teamId}`, {
+        await fetch(`${process.env.NEXT_PUBLIC_API}/teams/${teamId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

@@ -34,13 +34,13 @@ export default function CreateMatchPage() {
   const [id, setId] = useState<string>("");
 
   const fetchTeams = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teams`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/teams`);
     const data = await res.json();
     setTeams(data);
   };
 
   const fetchMatches = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/matches`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/matches`);
     const data = await res.json();
     const sorted = data.sort(
       (a: Match, b: Match) => a.match_time_sort - b.match_time_sort
@@ -130,13 +130,13 @@ export default function CreateMatchPage() {
     };
 
     if (mode === "edit") {
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/matches/${id}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API}/matches/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(match),
       });
     } else {
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/matches`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API}/matches`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(match),

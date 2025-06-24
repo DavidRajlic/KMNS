@@ -31,9 +31,10 @@ export default function MatchesPage() {
   const [selectedStage, setSelectedStage] = useState<string>("all");
   const liveMatchRef = useRef<HTMLDivElement | null>(null);
   const playedMatchRef = useRef<HTMLDivElement | null>(null);
+  const API_URL = process.env.NEXT_PUBLIC_API;
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/matches`)
+    fetch(`${API_URL}/matches`)
       .then((res) => res.json())
       .then((data) => {
         setMatches(data);
