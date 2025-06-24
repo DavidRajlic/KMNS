@@ -55,11 +55,10 @@ export default function MatchDetailsPage() {
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100 p-3">
       <div className="max-w-4xl mx-auto">
         {/* Match Details */}
-        <div className="bg-gradient-to-r shadow-sm from-slate-50 to-gray-50  backdrop-blur-sm rounded-2xl shadow-xl border border-sky-200/50 pt-4">
-          <h1 className="sm:text-3xl text-xl max-[430px]:text-lg flex justify-center pb-10 font-bold text-slate-800">
+        <div className="w-full bg-gradient-to-r from-slate-50 to-gray-50 shadow-xl border border-sky-200/50 rounded-2xl pt-4 px-4 backdrop-blur-sm">
+          <h1 className="sm:text-3xl text-xl max-[430px]:text-lg flex justify-center pb-10 font-bold text-slate-800 text-center flex-wrap">
             {match.team1_name} : {match.team2_name}
-            <span className="mx-2 text-sky-700 font-extrabold">
-              {"   "}
+            <span className="mx-2 text-sky-700 font-extrabold whitespace-nowrap">
               {match.team1_goals} - {match.team2_goals}
             </span>
           </h1>
