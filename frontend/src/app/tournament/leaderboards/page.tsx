@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 type Team = {
   _id: string;
   name: string;
+  place: number;
   group: string;
   points: number;
   goals_diff: number;
@@ -20,7 +21,6 @@ type Match = {
   winner?: string;
   advantage?: string;
 };
-
 
 export default function LeaderboardsPage() {
   const [teams, setTeams] = useState<Team[]>([]);
@@ -151,41 +151,54 @@ export default function LeaderboardsPage() {
                     <tbody className="divide-y divide-gray-100">
                       {groupTeams
                         .sort((a, b) => {
+                          const allHavePlaces = groupTeams.every(
+                            (team) =>
+                              team.place !== null &&
+                              team.place !== undefined &&
+                              team.place !== 0
+                          );
+
+                          if (allHavePlaces) {
+                            return a.place - b.place;
+                          }
+
                           const pointsDiff = b.points - a.points;
                           if (pointsDiff !== 0) return pointsDiff;
 
-                          // === IŠČEMO TEKMO MED A IN B ===
+                          // searching for match between those teams
                           const mutualMatch = matches.find(
                             (match) =>
-                              ((match.team1_id === a._id && match.team2_id === b._id) ||
-                                (match.team1_id === b._id && match.team2_id === a._id)) &&
+                              ((match.team1_id === a._id &&
+                                match.team2_id === b._id) ||
+                                (match.team1_id === b._id &&
+                                  match.team2_id === a._id)) &&
                               match.match_status === "played"
                           );
 
-                          // Če najdemo remi tekmo z zmagovalcem
+                          // checking advantage
                           if (
                             mutualMatch &&
-                            mutualMatch.team1_goals === mutualMatch.team2_goals &&
+                            mutualMatch.team1_goals ===
+                              mutualMatch.team2_goals &&
                             mutualMatch.advantage
                           ) {
-                            if (mutualMatch.advantage === a._id) return -1; // a gre višje
-                            if (mutualMatch.advantage === b._id) return 1; // b gre višje
+                            if (mutualMatch.advantage === a._id) return -1;
+                            if (mutualMatch.advantage === b._id) return 1;
                           }
 
-                          // Nadaljuj po razliki golov
                           const goalDiff = b.goals_diff - a.goals_diff;
                           if (goalDiff !== 0) return goalDiff;
 
-                          // Nazadnje po imenu
                           return a.name.localeCompare(b.name);
-                        }) // ← ta zaklepaj je bil manjkajoč
+                        })
                         .map((team, i) => (
                           <tr
                             key={team._id}
-                            className={`transition-colors duration-200 ${i < 2 && team.matches_played > 2
+                            className={`transition-colors duration-200 ${
+                              i < 2 && team.matches_played > 2
                                 ? "bg-green-50 hover:bg-green-100 border-l-4 border-green-400"
                                 : "hover:bg-blue-50"
-                              }`}
+                            }`}
                           >
                             {/* Mesto */}
                             <td className="px-2 sm:px-3 py-3">
@@ -234,7 +247,6 @@ export default function LeaderboardsPage() {
                           </tr>
                         ))}
                     </tbody>
-
                   </table>
                 </div>
               </div>
