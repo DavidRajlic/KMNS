@@ -80,7 +80,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link
-                href="/tournament/top-scorers"
+                href="/tournament/sponsors"
                 onClick={() => setMenuOpen(false)}
               >
                 Sponzorji
