@@ -5,16 +5,19 @@ const sponsors = [
     name: "Super trening",
     logo: "/sponsors/super_trening_logo.svg",
     url: "https://supertrening.si/",
+    width: 120,
   },
   {
     name: "Aram",
     logo: "/sponsors/aram_logo.svg",
     url: "https://www.aram.si/",
+    width: 250,
   },
   {
     name: "Kongrad",
     logo: "/sponsors/kongrad_logo.svg",
     url: "https://www.kongrad.si/",
+    width: 120,
   },
 ];
 
@@ -41,8 +44,8 @@ export default function SponsorsPage() {
               <Image
                 src={sponsor.logo}
                 alt={sponsor.name}
-                width={120}
-                height={80}
+                width={sponsor.width}
+                height={150}
                 className="mx-auto object-contain"
               />
             </a>
