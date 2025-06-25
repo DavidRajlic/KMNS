@@ -8,8 +8,7 @@ export default function AdminLoginPage() {
   const handleLogin = () => {
     if (code === process.env.NEXT_PUBLIC_CODE) {
       document.cookie = "adminAccess=true; path=/; secure; samesite=strict";
-
-      router.push("/");
+      router.push("/tournament/admin/teams");
     } else {
       alert("Napačna koda");
     }
