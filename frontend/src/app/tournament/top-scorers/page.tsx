@@ -24,7 +24,12 @@ export default function ScorersPage() {
       setPlayers(sorted);
     };
 
-    fetchPlayers();
+     fetchPlayers();
+     const interval = setInterval(() => {
+    fetchPlayers(); 
+  }, 20000);
+
+  return () => clearInterval(interval);
   }, []);
 
   if (players.length === 0)
