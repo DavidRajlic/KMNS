@@ -449,11 +449,6 @@ export default function MatchesPage() {
             </p>
           </div>
         )}
-
-        {/* Footer */}
-        <div className="text-center mt-8 sm:mt-12 text-gray-500 text-xs sm:text-sm px-4">
-          <p>🧙‍♂️ Smrkci - Mali nogometni klub z velikimi sanjami! 💙</p>
-        </div>
       </div>
     </div>
   );
