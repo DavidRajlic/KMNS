@@ -29,7 +29,7 @@ export default function ScorersPage() {
 
   if (players.length === 0)
     return (
-      <div className="text-center py-8 sm:py-12 px-4">
+      <div className="min-h-screen bg-white text-center py-8 sm:py-12 px-4">
         <div className="text-4xl sm:text-6xl mb-4">⚽</div>
         <h3 className="text-lg sm:text-xl font-semibold text-gray-700 mb-2">
           Ni še strelcev za prikaz
