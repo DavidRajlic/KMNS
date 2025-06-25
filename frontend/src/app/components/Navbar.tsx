@@ -45,7 +45,7 @@ export default function Navbar() {
             <Link href="/tournament/top-scorers">Strelci</Link>
           </li>
           <li>
-            <Link href="/tournament/top-scorers">Sponzorji</Link>
+            <Link href="/tournament/sponsors">Sponzorji</Link>
           </li>
         </ul>
       </div>
