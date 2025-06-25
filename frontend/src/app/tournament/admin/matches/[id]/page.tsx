@@ -139,11 +139,14 @@ export default function EditMatch() {
 
     try {
       for (const { player_id, data } of allPlayers) {
-        await fetch(`${process.env.NEXT_PUBLIC_API}/players/${player_id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API}/players/${player_id}/stats`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          }
+        );
       }
 
       alert("Vsi igralci uspešno posodobljeni.");
