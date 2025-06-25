@@ -12,7 +12,12 @@ export default function Navbar() {
     <nav className="bg-blue-600 shadow-md px-6 py-4">
       <div className="flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
-          <Image src="/KMNS_logo.png" alt="KMN Smrkci" width={40} height={40} />
+          <Image
+            src="/kmn-smrkci-logo.svg"
+            alt="KMN Smrkci"
+            width={50}
+            height={50}
+          />
           <span className="text-xl font-bold text-white">KMN SMRKCI</span>
         </Link>
 
@@ -56,7 +61,7 @@ export default function Navbar() {
                 Lestvice
               </Link>
             </li>
-           
+
             <li>
               <Link
                 href="/tournament/matches"
