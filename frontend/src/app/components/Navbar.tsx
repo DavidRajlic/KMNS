@@ -14,11 +14,13 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-3">
           <Image
             src="/kmn-smrkci-logo.svg"
-            alt="KMN Smrkci"
+            alt="KMN Smrkci Vojnik"
             width={50}
             height={50}
           />
-          <span className="text-xl font-bold text-white">KMN SMRKCI</span>
+          <span className="text-xl font-bold text-white">
+            KMN SMRKCI VOJNIK
+          </span>
         </Link>
 
         <button
