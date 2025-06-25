@@ -69,7 +69,7 @@ export default function MatchesPage() {
 
   const groupedMatches = filteredMatches.reduce<Record<string, Match[]>>(
     (acc, match) => {
-      const groupKey = match.round || match.stage;
+      const groupKey = match.stage || match.round;
       if (!acc[groupKey]) acc[groupKey] = [];
       acc[groupKey].push(match);
       return acc;
@@ -313,11 +313,14 @@ export default function MatchesPage() {
                           <div className="flex flex-wrap items-center justify-center gap-2 mt-3">
                             {match.stage != "skupine" ? (
                               <span
-                                className={`px-2 py-1 rounded-full text-xs font-bold border capitalize ${getStageColor(
+                                className={`px-2 py-1 rounded-full text-xs font-bold border  ${getStageColor(
                                   match.stage
                                 )}`}
                               >
-                                {match.stage}
+                                {match.round === "3" &&
+                                match.stage === "polfinale"
+                                  ? "boj za 3.mesto"
+                                  : match.stage}
                               </span>
                             ) : (
                               <span
@@ -416,11 +419,14 @@ export default function MatchesPage() {
                             {/* Stage in grupa */}
                             <div className="flex flex-col items-end space-y-2">
                               <span
-                                className={`px-3 py-1 rounded-full text-xs font-bold border capitalize ${getStageColor(
+                                className={`px-3 py-1 rounded-full text-xs font-bold border  ${getStageColor(
                                   match.stage
                                 )}`}
                               >
-                                {match.stage}
+                                {match.round === "3" &&
+                                match.stage === "polfinale"
+                                  ? "boj za 3.mesto"
+                                  : match.stage}
                               </span>
                               {match.group && (
                                 <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
