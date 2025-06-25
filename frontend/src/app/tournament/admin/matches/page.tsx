@@ -17,6 +17,7 @@ type Match = {
   team2_name: string;
   match_time_display: string;
   match_time_sort: number;
+  match_status: string;
   stage: string;
   round: number;
   group: string;
@@ -158,111 +159,113 @@ export default function CreateMatchPage() {
   return (
     <div className="bg-white text-black">
       <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold text-center mb-6 text-blue-800">
-        Ustvari Tekmo
-      </h1>
+        <h1 className="text-2xl font-bold text-center mb-6 text-blue-800">
+          Ustvari Tekmo
+        </h1>
 
-      {/* Ekipe */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
-        {teams.map((team) => (
+        {/* Ekipe */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+          {teams.map((team) => (
+            <button
+              key={team._id}
+              className={`p-2 border rounded-lg text-center font-medium shadow hover:bg-blue-100 transition ${selectedTeams.find((t) => t._id === team._id)
+                  ? "bg-blue-200"
+                  : "bg-white"
+                }`}
+              onClick={() => handleTeamClick(team)}
+              disabled={selectedTeams.length >= 2}
+            >
+              {team.name}
+            </button>
+          ))}
+        </div>
+
+        {/* Izbrani */}
+        <div className="mb-4">
+          <p className="font-semibold">Izbrani:</p>
+          <p>
+            {selectedTeams.map((t) => t.name).join(" vs ") || "Izberi 2 ekipi"}
+          </p>
+        </div>
+
+        {/* Čas in stopnja */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-4">
+          <input
+            type="time"
+            value={matchTime}
+            onChange={(e) => setMatchTime(e.target.value)}
+            className="border px-4 py-2 rounded-md"
+          />
+          <select
+            value={stage}
+            onChange={(e) => setStage(e.target.value as MatchStage)}
+            className="border px-4 py-2 rounded-md"
+          >
+            <option value="skupine">Skupinski del</option>
+            <option value="četrtfinale">Četrtfinale</option>
+            <option value="polfinale">Polfinale</option>
+            <option value="finale">Finale</option>
+          </select>
+          <input
+            type="round"
+            value={round}
+            onChange={(e) => setRound(e.target.value)}
+            className="border w-10 px-4 py-2 rounded-md"
+          />
           <button
-            key={team._id}
-            className={`p-2 border rounded-lg text-center font-medium shadow hover:bg-blue-100 transition ${
-              selectedTeams.find((t) => t._id === team._id)
-                ? "bg-blue-200"
-                : "bg-white"
-            }`}
-            onClick={() => handleTeamClick(team)}
-            disabled={selectedTeams.length >= 2}
+            onClick={createOrEditMatch}
+            className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
           >
-            {team.name}
+            Shrani tekmo
           </button>
-        ))}
-      </div>
+        </div>
+        {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
-      {/* Izbrani */}
-      <div className="mb-4">
-        <p className="font-semibold">Izbrani:</p>
-        <p>
-          {selectedTeams.map((t) => t.name).join(" vs ") || "Izberi 2 ekipi"}
-        </p>
-      </div>
-
-      {/* Čas in stopnja */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-4">
-        <input
-          type="time"
-          value={matchTime}
-          onChange={(e) => setMatchTime(e.target.value)}
-          className="border px-4 py-2 rounded-md"
-        />
-        <select
-          value={stage}
-          onChange={(e) => setStage(e.target.value as MatchStage)}
-          className="border px-4 py-2 rounded-md"
-        >
-          <option value="skupine">Skupinski del</option>
-          <option value="četrtfinale">Četrtfinale</option>
-          <option value="polfinale">Polfinale</option>
-          <option value="finale">Finale</option>
-        </select>
-        <input
-          type="round"
-          value={round}
-          onChange={(e) => setRound(e.target.value)}
-          className="border w-10 px-4 py-2 rounded-md"
-        />
-        <button
-          onClick={createOrEditMatch}
-          className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
-        >
-          Shrani tekmo
-        </button>
-      </div>
-      {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-
-      {/* Tekme */}
-      <h2 className="text-xl font-bold mt-8 mb-4 text-blue-800">Vse Tekme</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {matches.map((match) => (
-          <div
-            key={match._id}
-            className="bg-white shadow-md rounded-lg p-4 border border-gray-200"
-            onClick={() => handleMatchClick(match._id)}
-          >
-            <h2 className="font-semibold text-blue-800 mb-2">
-              {match.team1_name} vs {match.team2_name}
-            </h2>
-            <p className="text-sm text-gray-600 mb-1">
-              Ura: {match.match_time_display}
-            </p>
-            {match.stage != "skupine" ? (
-              <p className="text-sm text-gray-600 mb-2">Faza: {match.stage}</p>
-            ) : (
-              <p className="text-sm text-gray-600 mb-2">
-                Faza: Skupina {match.group}
+        {/* Tekme */}
+        <h2 className="text-xl font-bold mt-8 mb-4 text-blue-800">Vse Tekme</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {matches.map((match) => (
+            <div
+              key={match._id}
+              className="bg-white shadow-md rounded-lg p-4 border border-gray-200"
+              onClick={() => handleMatchClick(match._id)}
+            >
+              <h2 className="font-semibold text-blue-800 mb-2">
+                {match.team1_name} vs {match.team2_name} 
+              </h2>
+             <span className="text-sm text-gray-600 mb-1" > Status: </span>  {match.match_status === "played" ? (<span className="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+                ) : match.match_status === "live" ?(<span className="inline-block w-3 h-3 bg-red-500 rounded-full"></span>
+                ) : <span className="inline-block w-3 h-3 bg-black rounded-full"></span>}
+              <p className="text-sm text-gray-600 mb-1">
+                Ura: {match.match_time_display}
               </p>
-            )}
+              {match.stage != "skupine" ? (
+                <p className="text-sm text-gray-600 mb-2">Faza: {match.stage}</p>
+              ) : (
+                <p className="text-sm text-gray-600 mb-2">
+                  Faza: Skupina {match.group}
+                </p>
+              )}
 
-            <div className="flex gap-2">
-              <button
-                onClick={(e) => deleteMatch(match._id, e)}
-                className="text-red-600 hover:text-red-800 text-sm"
-              >
-                Izbriši
-              </button>
-              <button
-                onClick={(e) => handleEditMatch(match, match._id, e)}
-                className="text-blue-600 hover:text-blue-800 text-sm"
-              >
-                Uredi
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={(e) => deleteMatch(match._id, e)}
+                  className="text-red-600 hover:text-red-800 text-sm"
+                >
+                  Izbriši
+                </button>
+                <button
+                  onClick={(e) => handleEditMatch(match, match._id, e)}
+                  className="text-blue-600 hover:text-blue-800 text-sm"
+                >
+                  Uredi
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
-    </div>
-    
+
   );
 }
