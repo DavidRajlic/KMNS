@@ -16,6 +16,7 @@ type Team = {
   losses: number;
   draws: number;
   matches_played: number;
+  isPlaying: boolean;
 };
 
 export default function EditMatch() {
@@ -99,12 +100,12 @@ export default function EditMatch() {
     const existing = list.find((e) => e.player_id === player._id);
     const updated = existing
       ? list.map((e) =>
-          e.player_id === player._id ? { ...e, count: e.count + 1 } : e
-        )
+        e.player_id === player._id ? { ...e, count: e.count + 1 } : e
+      )
       : [
-          ...list,
-          { player_id: player._id, player_name: player.name, count: 1 },
-        ];
+        ...list,
+        { player_id: player._id, player_name: player.name, count: 1 },
+      ];
 
     setter((prev) => ({ ...prev, [team]: updated }));
   };
@@ -258,6 +259,31 @@ export default function EditMatch() {
 
     if (isLive) {
       match_status = "live";
+      if (!team1?.isPlaying) {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/teams/${team1Id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            isPlaying: true
+          }),
+        });
+           if (res.ok) alert("Shranjeno!");
+    else alert("Napaka pri shranjevanju");
+      }
+
+      if (!team2?.isPlaying) {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/teams/${team2Id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            isPlaying: true
+          }),
+        });
+           if (res.ok) alert("Shranjeno!");
+    else alert("Napaka pri shranjevanju");
+      }
+
+
     } else if (isFinished) {
       match_status = "played";
     } else {
@@ -308,6 +334,8 @@ export default function EditMatch() {
         }),
       }
     );
+
+
 
     if (res.ok) alert("Shranjeno!");
     else alert("Napaka pri shranjevanju");
