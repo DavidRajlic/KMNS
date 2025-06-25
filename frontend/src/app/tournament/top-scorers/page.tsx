@@ -27,7 +27,18 @@ export default function ScorersPage() {
     fetchPlayers();
   }, []);
 
-  if (players.length === 0) return null;
+  if (players.length === 0)
+    return (
+      <div className="text-center py-8 sm:py-12 px-4">
+        <div className="text-4xl sm:text-6xl mb-4">⚽</div>
+        <h3 className="text-lg sm:text-xl font-semibold text-gray-700 mb-2">
+          Ni še strelcev za prikaz
+        </h3>
+        <p className="text-gray-500 text-sm sm:text-base">
+          Evidenca o strelcih se vodi v izločilnih bojih
+        </p>
+      </div>
+    );
 
   let lastGoals = players[0].goals ?? 0;
 
