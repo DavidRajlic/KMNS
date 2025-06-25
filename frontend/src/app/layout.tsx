@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,9 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "KMN SMRKCI ",
+  title: "KMN SMRKCI",
   description: "Turnir malega nogometa",
+  icons: {
+    icon: "/kmn-smrkci-logo.svg", 
+  },
 };
+
 
 export default function RootLayout({
   children,
