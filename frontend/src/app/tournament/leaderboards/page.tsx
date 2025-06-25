@@ -9,6 +9,7 @@ type Team = {
   points: number;
   goals_diff: number;
   matches_played: number;
+  isPlaying: boolean;
 };
 
 type Match = {
@@ -90,16 +91,18 @@ export default function LeaderboardsPage() {
         </div>
 
         <div className="sm:hidden mb-6 bg-blue-50 rounded-lg p-4 border-l-4 border-blue-400">
-          <p className="text-sm text-blue-800 font-medium mb-2">📱 Krajšave:</p>
           <div className="text-xs text-blue-700 space-y-1">
             <p>
               <strong>OT</strong> = Odigrane tekme
             </p>
             <p>
-              <strong>RG</strong> = Razlika golov
+              <strong>RVZ</strong> = Razlika v zadetkih
             </p>
             <p>
               <strong>T</strong> = Točke
+            </p>
+            <p>
+              <strong><span className="inline-block  w-3 h-3 bg-red-500 rounded-full animate-pulse"></span></strong> = Ekipa trenutno igra
             </p>
           </div>
         </div>
@@ -140,7 +143,7 @@ export default function LeaderboardsPage() {
                           <span className="hidden sm:inline">
                             Razlika v zadetkih
                           </span>
-                          <span className="sm:hidden">RG</span>
+                          <span className="sm:hidden">RVZ</span>
                         </th>
                         <th className="px-2 sm:px-3 py-3 text-center text-xs font-bold text-blue-800 uppercase tracking-wider">
                           <span className="hidden sm:inline">Točke</span>
@@ -214,7 +217,12 @@ export default function LeaderboardsPage() {
                             {/* Ekipa */}
                             <td className="px-2 sm:px-3 py-3">
                               <div className="font-semibold text-gray-900 text-sm sm:text-base">
-                                {team.name}
+                              <span className="pr-2"> {team.name} </span>   {team.isPlaying && (
+                                  <span className="inline-block  w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+                                )
+                                  
+                                } 
+
                               </div>
                             </td>
 
