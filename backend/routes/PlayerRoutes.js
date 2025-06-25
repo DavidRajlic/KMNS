@@ -23,6 +23,7 @@ router.post("/", PlayerController.create);
  * PUT
  */
 router.put("/:id", PlayerController.update);
+router.put("/:id/stats", PlayerController.updatePlayerStats);
 
 /*
  * DELETE

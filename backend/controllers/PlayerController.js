@@ -80,6 +80,31 @@ module.exports = {
     }
   },
 
+  // PUT /players/:id/stats
+  updatePlayerStats: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { goals = 0, yellow_cards = 0, red_cards = 0 } = req.body;
+
+      const player = await PlayerModel.findById(id);
+      if (!player) {
+        return res.status(404).json({ message: "Igralec ni najden." });
+      }
+
+      player.goals += goals;
+      player.yellow_cards += yellow_cards;
+      player.red_cards += red_cards;
+
+      const updatedPlayer = await player.save();
+      return res.json(updatedPlayer);
+    } catch (err) {
+      return res.status(500).json({
+        message: "Napaka pri posodabljanju statistike igralca.",
+        error: err,
+      });
+    }
+  },
+
   // DELETE /players/:id
   remove: async (req, res) => {
     try {
