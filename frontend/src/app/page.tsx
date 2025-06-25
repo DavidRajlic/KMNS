@@ -8,11 +8,11 @@ export default function Home() {
       <div className="w-full max-w-3xl bg-white rounded-none sm:rounded-2xl shadow-none sm:shadow-xl p-6 sm:p-8">
         <div className="flex flex-col items-center text-center">
           <Image
-            src="/KMNS_logo.png"
+            src="/kmn-smrkci-logo.svg"
             alt="KMN Smrkci Logo"
-            width={100}
-            height={100}
-            className="mb-4"
+            width={150}
+            height={150}
+            className=""
           />
 
           <h1 className="text-3xl sm:text-4xl font-bold text-blue-800 mb-4">
