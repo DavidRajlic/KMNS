@@ -18,6 +18,7 @@ type Match = {
   match_time_display: string;
   match_time_sort: number;
   stage: string;
+  round: number;
   group: string;
 };
 type MatchStage = "skupine" | "četrfinale" | "polfinale" | "finale";
@@ -27,6 +28,7 @@ export default function CreateMatchPage() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [selectedTeams, setSelectedTeams] = useState<Team[]>([]);
   const [matchTime, setMatchTime] = useState("");
+  const [round, setRound] = useState<string>("");
   const [stage, setStage] = useState<MatchStage>("skupine");
   const [matches, setMatches] = useState<Match[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -103,6 +105,7 @@ export default function CreateMatchPage() {
       setStage("skupine");
       fetchMatches();
       setId("");
+      setRound("");
       setMode("");
       return;
     }
@@ -122,7 +125,7 @@ export default function CreateMatchPage() {
       team1_scorers: [],
       stage,
       group,
-      round: "",
+      round: round,
       team1_players_yellow_card: [],
       match_status: "notPlayed",
       match_time_display: matchTime,
@@ -148,6 +151,7 @@ export default function CreateMatchPage() {
     setStage("skupine");
     fetchMatches();
     setId("");
+    setRound("");
     setMode("");
   };
 
@@ -201,6 +205,12 @@ export default function CreateMatchPage() {
           <option value="polfinale">Polfinale</option>
           <option value="finale">Finale</option>
         </select>
+        <input
+          type="round"
+          value={round}
+          onChange={(e) => setRound(e.target.value)}
+          className="border w-10 px-4 py-2 rounded-md"
+        />
         <button
           onClick={createOrEditMatch}
           className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
