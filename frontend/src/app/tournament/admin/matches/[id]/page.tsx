@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 type Player = { _id: string; name: string };
-type Match = { _id: string; team1_name: string; team2_name: string };
+type Match = { _id: string; team1_name: string; team2_name: string, stage: string };
 type PlayerEvent = { player_id: string; player_name: string; count: number };
 type Team = {
   _id: string;
@@ -19,10 +19,10 @@ type Team = {
   isPlaying: boolean;
 };
 
+
 export default function EditMatch() {
   const { id } = useParams();
   const matchId = id as string;
-
   const [match, setMatch] = useState<Match | null>(null);
   const [players1, setPlayers1] = useState<Player[]>([]);
   const [players2, setPlayers2] = useState<Player[]>([]);
@@ -355,8 +355,9 @@ export default function EditMatch() {
   if (!match || !team1 || !team2) return <div>Nalaganje...</div>;
 
   return (
-    <div className="p-4 max-w-5xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-center">Uredi tekmo</h1>
+    <div className="min-h-screen bg-white text-black p-4  border border-red-200 w-full space-y-6">
+      <div className="">
+         <h1 className="text-2xl font-bold text-center">Uredi tekmo</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TeamCard
           teamName={match.team1_name}
@@ -427,8 +428,11 @@ export default function EditMatch() {
       </div>
       <p> ADVANTAGE: {advantage}</p>
     </div>
+
+      </div>
+     
   );
-}
+
 
 type TeamCardProps = {
   teamName: string;
@@ -467,33 +471,32 @@ function TeamCard({
         value={goals}
         onChange={(e) => setGoals(parseInt(e.target.value) || 0)}
       />
+ 
+      {!isGroupStage ? (
+  players.map((p) => (
+    <div key={p._id} className="flex justify-between items-center py-1">
+      <span>{p.name}</span>
+      <div className="flex gap-2 items-center">
+        {getCount(scorerCounts, p._id) > 0 && (
+          <span>{getCount(scorerCounts, p._id)}</span>
+        )}
+        <button onClick={() => onGoal(p)} title="Gol">⚽</button>
+        {getCount(yellowCounts, p._id) > 0 && (
+          <span>{getCount(yellowCounts, p._id)}</span>
+        )}
+        <button onClick={() => onYellow(p)} title="Rumen karton">🟨</button>
+        {getCount(redCounts, p._id) > 0 && (
+          <span>{getCount(redCounts, p._id)}</span>
+        )}
+        <button onClick={() => onRed(p)} title="Rdeč karton">🟥</button>
+      </div>
+    </div>
+  ))
+) : (
+  <p className="text-gray-400 text-sm">Igralcev za to fazo ni mogoče urejati.</p>
+)}
 
-      {players.map((p) => (
-        <div key={p._id} className="flex justify-between items-center py-1 ">
-          <span>{p.name}</span>
-          <div className="flex gap-2 items-center">
-            {getCount(scorerCounts, p._id) > 0 && (
-              <span>{getCount(scorerCounts, p._id)}</span>
-            )}
-            <button onClick={() => onGoal(p)} title="Gol">
-              ⚽
-            </button>
-            {getCount(yellowCounts, p._id) > 0 && (
-              <span>{getCount(yellowCounts, p._id)}</span>
-            )}
-
-            <button onClick={() => onYellow(p)} title="Rumen karton">
-              🟨
-            </button>
-            {getCount(redCounts, p._id) > 0 && (
-              <span>{getCount(redCounts, p._id)}</span>
-            )}
-            <button onClick={() => onRed(p)} title="Rdeč karton">
-              🟥
-            </button>
-          </div>
-        </div>
-      ))}
     </div>
   );
+  }
 }
