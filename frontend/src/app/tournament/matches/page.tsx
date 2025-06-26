@@ -102,8 +102,8 @@ export default function MatchesPage() {
     );
   };
 
-  const handleMatchClick = (teamId: string, match_status: string) => {
-    if (match_status != "notPlayed") {
+  const handleMatchClick = (teamId: string, match_status: string, stage: string) => {
+    if (match_status != "notPlayed" && stage !="skupine") {
       router.push(`matches/${teamId}`);
     }
   };
@@ -235,7 +235,7 @@ export default function MatchesPage() {
                             : null
                         }
                         onClick={() =>
-                          handleMatchClick(match._id, match.match_status)
+                          handleMatchClick(match._id, match.match_status, match.stage)
                         }
                         className="p-3 sm:p-4 md:p-6 hover:bg-blue-50 transition-colors duration-200"
                       >
