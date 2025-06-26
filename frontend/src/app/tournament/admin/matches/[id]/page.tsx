@@ -168,6 +168,7 @@ export default function EditMatch() {
         goals_diff: team1!.goals_diff + (goals.team1_goals - goals.team2_goals),
         draws: team1!.draws + 1,
         matches_played: team1!.matches_played + 1,
+        isPlaying: false
       }),
     });
 
@@ -184,6 +185,7 @@ export default function EditMatch() {
             team2!.goals_diff + (goals.team2_goals - goals.team1_goals),
           draws: team2!.draws + 1,
           matches_played: team2!.matches_played + 1,
+          isPlaying: false
         }),
       }
     );
@@ -213,6 +215,7 @@ export default function EditMatch() {
         wins: team1!.wins + wins,
         losses: team1!.losses + losses,
         matches_played: team1!.matches_played + 1,
+        isPlaying: false,
       }),
     });
 
@@ -240,6 +243,7 @@ export default function EditMatch() {
           wins: team2!.wins + winsT2,
           losses: team2!.losses + lossesT2,
           matches_played: team2!.matches_played + 1,
+          isPlaying: false,
         }),
       }
     );
