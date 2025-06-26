@@ -21,6 +21,7 @@ type Match = {
   match_status: "played" | "notPlayed" | "live";
   match_time_display: string;
   match_time_sort: number;
+  advantage: string;
   winner?: string;
 };
 
@@ -179,7 +180,10 @@ export default function MatchesPage() {
                 {stage}
               </button>
             ))}
+            
           </div>
+           <div className="flex text-gray-600 sm:text-sm text-xs mx-5 flex justify-center py-5"> 🟢  – ob enakem številu točk napreduje ekipa, ki je zmagala v medsebojnih penalih  </div>
+         
         </div>
 
         {/* Tekme po rundah */}
@@ -266,7 +270,7 @@ export default function MatchesPage() {
                                     : "text-gray-800"
                                 }`}
                               >
-                                {match.team1_name}
+                                {match.team1_name}  {match.advantage === match.team1_id && (<span className="text-xs"> 🟢 </span>)}
                                 {match.team1_name
                                   .toLowerCase()
                                   .includes("smrkci") && " 🧙‍♂️"}
@@ -298,7 +302,7 @@ export default function MatchesPage() {
                                 {match.team2_name
                                   .toLowerCase()
                                   .includes("smrkci") && "🧙‍♂️ "}
-                                {match.team2_name}
+                                {match.team2_name} {match.advantage === match.team2_id && ( <span className="text-xs"> 🟢 </span>)}
                               </div>
                               <div className="text-lg font-bold text-gray-800 ml-2">
                                 {match.match_status === "played" ||
@@ -375,7 +379,7 @@ export default function MatchesPage() {
                                         : "text-gray-800"
                                     }`}
                                   >
-                                    {match.team1_name}
+                                    {match.team1_name} {match.advantage === match.team1_id && ( <span className="text-xs"> 🟢 </span>)}
                                     {match.team1_name
                                       .toLowerCase()
                                       .includes("smrkci") && " 🧙‍♂️"}
@@ -410,7 +414,7 @@ export default function MatchesPage() {
                                     {match.team2_name
                                       .toLowerCase()
                                       .includes("smrkci") && "🧙‍♂️ "}
-                                    {match.team2_name}
+                                    {match.team2_name} {match.advantage === match.team2_id && ( <span className="text-xs"> 🟢 </span>)}
                                   </div>
                                 </div>
                               </div>
