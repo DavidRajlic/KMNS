@@ -47,7 +47,7 @@ export default function Navbar() {
             <Link href="/tournament/top-scorers">Strelci</Link>
           </li>
           <li>
-            <Link href="/tournament/sponsors">Sponzorji</Link>
+            <Link href="/tournament/sponsors">Donatorji</Link>
           </li>
         </ul>
       </div>
@@ -85,7 +85,7 @@ export default function Navbar() {
                 href="/tournament/sponsors"
                 onClick={() => setMenuOpen(false)}
               >
-                Sponzorji
+                Donatorji
               </Link>
             </li>
           </ul>
