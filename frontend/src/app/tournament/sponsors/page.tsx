@@ -33,7 +33,7 @@ export default function SponsorsPage() {
     <div className="flex flex-col min-h-screen bg-blue-500">
       <main className="flex-grow px-6 pt-12">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl font-bold mb-6 text-white">Naši sponzorji</h1>
+          <h1 className="text-4xl font-bold mb-6 text-white">Naši donatorji</h1>
           <p className="text-lg text-gray-200 mb-10">
             Glavni pokrovitelji dogodka:
           </p>
