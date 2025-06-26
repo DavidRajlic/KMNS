@@ -10,6 +10,7 @@ type Player = {
 
 export default function ScorersPage() {
   const [players, setPlayers] = useState<Player[]>([]);
+  const [loading, setLoading] = useState(true); 
   const API_URL = process.env.NEXT_PUBLIC_API;
 
   useEffect(() => {
@@ -25,12 +26,24 @@ export default function ScorersPage() {
     };
 
      fetchPlayers();
+     setLoading(false);
      const interval = setInterval(() => {
     fetchPlayers(); 
   }, 20000);
 
   return () => clearInterval(interval);
   }, []);
+
+    if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Nalaganje strelcev...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (players.length === 0)
     return (
