@@ -41,6 +41,9 @@ export default function MatchDetailsPage() {
     };
 
     fetchMatch();
+   const interval = setInterval(fetchMatch, 20000); 
+
+  return () => clearInterval(interval); 
   }, [matchId]);
 
   if (!match) {
