@@ -262,18 +262,10 @@ export default function MatchesPage() {
                             {/* Ekipa 1 */}
                             <div className="flex items-center justify-between">
                               <div
-                                className={`text-sm font-bold flex-1 ${
-                                  match.team1_name
-                                    .toLowerCase()
-                                    .includes("smrkci")
-                                    ? "text-blue-600"
-                                    : "text-gray-800"
-                                }`}
+                                className={"text-sm font-bold flex-1 text-gray-800"
+                                }
                               >
                                 {match.team1_name}  {match.advantage === match.team1_id && (<span className="text-xs"> 🟢 </span>)}
-                                {match.team1_name
-                                  .toLowerCase()
-                                  .includes("smrkci") && " 🧙‍♂️"}
                               </div>
                               <div className="text-lg font-bold text-gray-800 ml-2">
                                 {match.match_status === "played" ||
@@ -291,17 +283,8 @@ export default function MatchesPage() {
                             {/* Ekipa 2 */}
                             <div className="flex items-center justify-between">
                               <div
-                                className={`text-sm font-bold flex-1 ${
-                                  match.team2_name
-                                    .toLowerCase()
-                                    .includes("smrkci")
-                                    ? "text-blue-600"
-                                    : "text-gray-800"
-                                }`}
+                                className={"text-sm font-bold flex-1 text-gray-800" }
                               >
-                                {match.team2_name
-                                  .toLowerCase()
-                                  .includes("smrkci") && "🧙‍♂️ "}
                                 {match.team2_name} {match.advantage === match.team2_id && ( <span className="text-xs"> 🟢 </span>)}
                               </div>
                               <div className="text-lg font-bold text-gray-800 ml-2">
@@ -371,18 +354,10 @@ export default function MatchesPage() {
                                 {/* Ekipa 1 */}
                                 <div className="flex-1 text-right">
                                   <div
-                                    className={`text-base md:text-lg font-bold ${
-                                      match.team1_name
-                                        .toLowerCase()
-                                        .includes("smrkci")
-                                        ? "text-blue-600"
-                                        : "text-gray-800"
-                                    }`}
+                                   className={"text-base md:text-lg font-bold text-gray-800"
+                                }
                                   >
                                     {match.team1_name} {match.advantage === match.team1_id && ( <span className="text-xs"> 🟢 </span>)}
-                                    {match.team1_name
-                                      .toLowerCase()
-                                      .includes("smrkci") && " 🧙‍♂️"}
                                   </div>
                                 </div>
 
@@ -394,7 +369,7 @@ export default function MatchesPage() {
                                       {match.team1_goals} : {match.team2_goals}
                                     </div>
                                   ) : (
-                                    <div className="text-sm md:text-lg font-bold text-gray-500">
+                                    <div className="text-sm md:text-lg font-bold text-gray-800">
                                       VS
                                     </div>
                                   )}
@@ -403,17 +378,9 @@ export default function MatchesPage() {
                                 {/* Ekipa 2 */}
                                 <div className="flex-1 text-left">
                                   <div
-                                    className={`text-base md:text-lg font-bold ${
-                                      match.team2_name
-                                        .toLowerCase()
-                                        .includes("smrkci")
-                                        ? "text-blue-600"
-                                        : "text-gray-800"
-                                    }`}
+                                   className={"text-base md:text-lg font-bold text-gray-800"
+                                }
                                   >
-                                    {match.team2_name
-                                      .toLowerCase()
-                                      .includes("smrkci") && "🧙‍♂️ "}
                                     {match.team2_name} {match.advantage === match.team2_id && ( <span className="text-xs"> 🟢 </span>)}
                                   </div>
                                 </div>
@@ -454,7 +421,7 @@ export default function MatchesPage() {
             <h3 className="text-lg sm:text-xl font-semibold text-gray-700 mb-2">
               Ni tekem za prikaz
             </h3>
-            <p className="text-gray-500 text-sm sm:text-base">
+            <p className="text-gray-800 text-sm sm:text-base">
               Poskusite z drugim filtrom ali preverite pozneje.
             </p>
           </div>
