@@ -34,9 +34,12 @@ export default function SponsorsPage() {
       <main className="flex-grow px-6 pt-12">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl font-bold mb-6 text-white">Naši donatorji</h1>
-          <p className="text-lg text-gray-200 mb-10">
-            Glavni pokrovitelji dogodka:
+          <p className="max-[480px]:text-xs text-sm sm:text-base lg:text-lg px-2 text-gray-200 mb-10">
+            S ponosom predstavljamo svoje donatorje, <br className="lg:hidden" /> ki nam omogočajo, da se kot društvo udejstvujemo v športu.
+            <br />
+            Za vso podporo in vse se vam iz srca zahvaljujemo <span className="max-[430px]:hidden"> –  </span> <br className="min-[430px]:hidden" /> <strong> vaši Smrkci!</strong>
           </p>
+
 
           <div className="grid grid-cols-1 gap-8 items-center justify-center sm:grid-cols-2 lg:grid-cols-4">
             {sponsors.map((sponsor) => (
