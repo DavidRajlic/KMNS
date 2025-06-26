@@ -30,21 +30,26 @@ export default function MatchDetailsPage() {
 
   const [match, setMatch] = useState<Match | null>(null);
 
-  useEffect(() => {
-    const fetchMatch = async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/matches/${matchId}`
-      );
-      const data = await res.json();
-      console.log(data);
-      setMatch(data);
-    };
+ useEffect(() => {
+  let interval: NodeJS.Timeout;
 
-    fetchMatch();
-   const interval = setInterval(fetchMatch, 20000); 
+  const fetchMatch = async () => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API}/matches/${matchId}`
+    );
+    const data = await res.json();
+    setMatch(data);
 
-  return () => clearInterval(interval); 
-  }, [matchId]);
+    if (data.match_status === "live" && !interval) {
+      interval = setInterval(fetchMatch, 20000);
+    }
+  };
+
+  fetchMatch();
+
+  return () => clearInterval(interval);
+}, [matchId]);
+
 
   if (!match) {
     return (
@@ -155,8 +160,8 @@ function Section({ items, type }: SectionProps) {
                   ? "⚽"
                   : `${p.goals}x ⚽`
                 : type === "yellow"
-                ? "🟨"
-                : "🟥"}
+                  ? "🟨"
+                  : "🟥"}
             </span>
           </li>
         ))}
