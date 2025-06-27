@@ -80,6 +80,7 @@ export default function SponsorsPage() {
                 rajlic.david@gmail.com
               </a>
             </p>
+            <div className="text-xs pt-5">© {new Date().getFullYear()} KMN Smrkci. Vse pravice pridržane.</div>
           </div>
         </div>
       </main>
