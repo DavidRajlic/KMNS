@@ -199,7 +199,7 @@ export default function LeaderboardsPage() {
                             key={team._id}
                             className={`transition-colors duration-200 ${
                               i < 2 && team.matches_played > 2
-                                ? "bg-green-50 hover:bg-green-100 border-l-4 border-green-400"
+                                ? "bg-green-100 hover:bg-green-200 border-l-4"
                                 : "hover:bg-blue-50"
                             }`}
                           >
