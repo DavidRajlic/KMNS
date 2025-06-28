@@ -3,7 +3,17 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 type Player = { _id: string; name: string };
-type Match = { _id: string; team1_name: string; team2_name: string, stage: string };
+type Match = { _id: string; team1_name: string;
+   team2_name: string, team1_goals: number, 
+   team2_goals: number,  
+  team1_scorers: PlayerStat[],
+  team2_scorers: PlayerStat[];
+  team1_yellow_cards: PlayerStat[];
+  team2_yellow_cards: PlayerStat[];
+  team1_red_cards: PlayerStat[];
+  team2_red_cards: PlayerStat[]; stage: string };
+
+
 type PlayerEvent = { player_id: string; player_name: string; count: number };
 type Team = {
   _id: string;
@@ -17,6 +27,14 @@ type Team = {
   draws: number;
   matches_played: number;
   isPlaying: boolean;
+};
+
+type PlayerStat = {
+  player_id: string;
+  player_name: string;
+  goals?: number;
+  y_cards?: number;
+  r_cards?: number;
 };
 
 
@@ -431,7 +449,100 @@ export default function EditMatch() {
         </button>
       </div>
       <p> ADVANTAGE: {advantage}</p>
+      <div> {match.team1_goals}</div>
     </div>
+<div className="space-y-6">
+  {/* Ekipa 1 */}
+  <div className="p-4 border rounded-md">
+    <h2 className="text-lg font-bold mb-2">{match.team1_name}</h2>
+    <p>Goli: {match.team1_goals}</p>
+
+    {match.team1_scorers.length > 0 && (
+      <div className="mt-2">
+        <p className="font-semibold">⚽ Strelci:</p>
+        <ul className="list-disc ml-5 text-sm">
+          {match.team1_scorers.map((p) => (
+            <li key={p.player_id}>
+              {p.player_name} - {p.goals} gol(ov)
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {match.team1_yellow_cards.length > 0 && (
+      <div className="mt-2">
+        <p className="font-semibold">🟨 Rumen karton:</p>
+        <ul className="list-disc ml-5 text-sm">
+          {match.team1_yellow_cards.map((p) => (
+            <li key={p.player_id}>
+              {p.player_name} - {p.y_cards} karton(ov)
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {match.team1_red_cards.length > 0 && (
+      <div className="mt-2">
+        <p className="font-semibold">🟥 Rdeč karton:</p>
+        <ul className="list-disc ml-5 text-sm">
+          {match.team1_red_cards.map((p) => (
+            <li key={p.player_id}>
+              {p.player_name} - {p.r_cards} karton(ov)
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+
+  {/* Ekipa 2 */}
+  <div className="p-4 border rounded-md">
+    <h2 className="text-lg font-bold mb-2">{match.team2_name}</h2>
+    <p>Goli: {match.team2_goals}</p>
+
+    {match.team2_scorers.length > 0 && (
+      <div className="mt-2">
+        <p className="font-semibold">⚽ Strelci:</p>
+        <ul className="list-disc ml-5 text-sm">
+          {match.team2_scorers.map((p) => (
+            <li key={p.player_id}>
+              {p.player_name} - {p.goals} gol(ov)
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {match.team2_yellow_cards.length > 0 && (
+      <div className="mt-2">
+        <p className="font-semibold">🟨 Rumen karton:</p>
+        <ul className="list-disc ml-5 text-sm">
+          {match.team2_yellow_cards.map((p) => (
+            <li key={p.player_id}>
+              {p.player_name} - {p.y_cards} karton(ov)
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {match.team2_red_cards.length > 0 && (
+      <div className="mt-2">
+        <p className="font-semibold">🟥 Rdeč karton:</p>
+        <ul className="list-disc ml-5 text-sm">
+          {match.team2_red_cards.map((p) => (
+            <li key={p.player_id}>
+              {p.player_name} - {p.r_cards} karton(ov)
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+</div>
+
 
       </div>
      
@@ -467,40 +578,58 @@ function TeamCard({
     arr.find((e) => e.player_id === id)?.count || 0;
 
   return (
-    <div className=" p-4 rounded shadow">
+    <div className="p-4 rounded shadow">
       <h2 className="text-xl font-semibold mb-2">{teamName}</h2>
+
       <input
         type="number"
         className="border px-2 py-1 rounded mb-4 w-24"
         value={goals}
         onChange={(e) => setGoals(parseInt(e.target.value) || 0)}
       />
- 
-      {!isGroupStage ? (
-  players.map((p) => (
-    <div key={p._id} className="flex justify-between items-center py-1">
-      <span>{p.name}</span>
-      <div className="flex gap-2 items-center">
-        {getCount(scorerCounts, p._id) > 0 && (
-          <span>{getCount(scorerCounts, p._id)}</span>
-        )}
-        <button onClick={() => onGoal(p)} title="Gol">⚽</button>
-        {getCount(yellowCounts, p._id) > 0 && (
-          <span>{getCount(yellowCounts, p._id)}</span>
-        )}
-        <button onClick={() => onYellow(p)} title="Rumen karton">🟨</button>
-        {getCount(redCounts, p._id) > 0 && (
-          <span>{getCount(redCounts, p._id)}</span>
-        )}
-        <button onClick={() => onRed(p)} title="Rdeč karton">🟥</button>
-      </div>
-    </div>
-  ))
-) : (
-  <p className="text-gray-400 text-sm">Igralcev za to fazo ni mogoče urejati.</p>
-)}
 
+      {/* Novi del: seznam strelcev */}
+      <div className="mb-4">
+        <p className="font-medium">🥅 Skupaj golov: {goals}</p>
+        {scorerCounts.length > 0 ? (
+          <ul className="list-disc ml-5 text-sm text-gray-700">
+            {scorerCounts.map((scorer) => {
+              const player = players.find((p) => p._id === scorer.player_id);
+              return (
+                <li key={scorer.player_id}>
+                  {player?.name || "Neznan"}: {scorer.count} gol(ov)
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <p className="text-sm text-gray-400">Nobenega strelca še ni.</p>
+        )}
+      </div>
+
+      {!isGroupStage ? (
+        players.map((p) => (
+          <div key={p._id} className="flex justify-between items-center py-1">
+            <span>{p.name}</span>
+            <div className="flex gap-2 items-center">
+              {getCount(scorerCounts, p._id) > 0 && (
+                <span>{getCount(scorerCounts, p._id)}</span>
+              )}
+              <button onClick={() => onGoal(p)} title="Gol">⚽</button>
+              {getCount(yellowCounts, p._id) > 0 && (
+                <span>{getCount(yellowCounts, p._id)}</span>
+              )}
+              <button onClick={() => onYellow(p)} title="Rumen karton">🟨</button>
+              {getCount(redCounts, p._id) > 0 && (
+                <span>{getCount(redCounts, p._id)}</span>
+              )}
+              <button onClick={() => onRed(p)} title="Rdeč karton">🟥</button>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p className="text-gray-400 text-sm">Igralcev za to fazo ni mogoče urejati.</p>
+      )}
     </div>
   );
-  }
-}
+}}
