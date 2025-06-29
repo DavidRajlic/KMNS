@@ -102,8 +102,12 @@ export default function MatchesPage() {
     );
   };
 
-  const handleMatchClick = (teamId: string, match_status: string, stage: string) => {
-    if (match_status != "notPlayed" && stage !="skupine") {
+  const handleMatchClick = (
+    teamId: string,
+    match_status: string,
+    stage: string
+  ) => {
+    if (match_status != "notPlayed" && stage != "skupine") {
       router.push(`matches/${teamId}`);
     }
   };
@@ -180,10 +184,12 @@ export default function MatchesPage() {
                 {stage}
               </button>
             ))}
-            
           </div>
-           <div className="flex text-gray-600 sm:text-sm text-xs mx-5 flex justify-center py-5"> 🟢  – ob enakem številu točk napreduje ekipa, ki je zmagala v medsebojnih penalih  </div>
-         
+          <div className="flex text-gray-600 sm:text-sm text-xs mx-5 flex justify-center py-5">
+            {" "}
+            🟢 – ob neodločenim rezultatom napreduje ekipa, ki je zmagala v
+            medsebojnih kazenskih strelih{" "}
+          </div>
         </div>
 
         {/* Tekme po rundah */}
@@ -235,7 +241,11 @@ export default function MatchesPage() {
                             : null
                         }
                         onClick={() =>
-                          handleMatchClick(match._id, match.match_status, match.stage)
+                          handleMatchClick(
+                            match._id,
+                            match.match_status,
+                            match.stage
+                          )
                         }
                         className="p-3 sm:p-4 md:p-6 hover:bg-blue-50 transition-colors duration-200"
                       >
@@ -262,10 +272,14 @@ export default function MatchesPage() {
                             {/* Ekipa 1 */}
                             <div className="flex items-center justify-between">
                               <div
-                                className={"text-sm font-bold flex-1 text-gray-800"
+                                className={
+                                  "text-sm font-bold flex-1 text-gray-800"
                                 }
                               >
-                                {match.team1_name}  {match.advantage === match.team1_id && (<span className="text-xs"> 🟢 </span>)}
+                                {match.team1_name}{" "}
+                                {match.advantage === match.team1_id && (
+                                  <span className="text-xs"> 🟢 </span>
+                                )}
                               </div>
                               <div className="text-lg font-bold text-gray-800 ml-2">
                                 {match.match_status === "played" ||
@@ -283,9 +297,14 @@ export default function MatchesPage() {
                             {/* Ekipa 2 */}
                             <div className="flex items-center justify-between">
                               <div
-                                className={"text-sm font-bold flex-1 text-gray-800" }
+                                className={
+                                  "text-sm font-bold flex-1 text-gray-800"
+                                }
                               >
-                                {match.team2_name} {match.advantage === match.team2_id && ( <span className="text-xs"> 🟢 </span>)}
+                                {match.team2_name}{" "}
+                                {match.advantage === match.team2_id && (
+                                  <span className="text-xs"> 🟢 </span>
+                                )}
                               </div>
                               <div className="text-lg font-bold text-gray-800 ml-2">
                                 {match.match_status === "played" ||
@@ -354,10 +373,14 @@ export default function MatchesPage() {
                                 {/* Ekipa 1 */}
                                 <div className="flex-1 text-right">
                                   <div
-                                   className={"text-base md:text-lg font-bold text-gray-800"
-                                }
+                                    className={
+                                      "text-base md:text-lg font-bold text-gray-800"
+                                    }
                                   >
-                                    {match.team1_name} {match.advantage === match.team1_id && ( <span className="text-xs"> 🟢 </span>)}
+                                    {match.team1_name}{" "}
+                                    {match.advantage === match.team1_id && (
+                                      <span className="text-xs"> 🟢 </span>
+                                    )}
                                   </div>
                                 </div>
 
@@ -378,10 +401,14 @@ export default function MatchesPage() {
                                 {/* Ekipa 2 */}
                                 <div className="flex-1 text-left">
                                   <div
-                                   className={"text-base md:text-lg font-bold text-gray-800"
-                                }
+                                    className={
+                                      "text-base md:text-lg font-bold text-gray-800"
+                                    }
                                   >
-                                    {match.team2_name} {match.advantage === match.team2_id && ( <span className="text-xs"> 🟢 </span>)}
+                                    {match.team2_name}{" "}
+                                    {match.advantage === match.team2_id && (
+                                      <span className="text-xs"> 🟢 </span>
+                                    )}
                                   </div>
                                 </div>
                               </div>
