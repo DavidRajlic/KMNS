@@ -13,7 +13,7 @@ export default function Countdown() {
       const diff = targetDate.getTime() - now.getTime();
 
       if (diff <= 0) {
-        setCountdown("Turnir se je začel!");
+        setCountdown("Turnir se je zaključil!");
         clearInterval(interval);
         return;
       }
