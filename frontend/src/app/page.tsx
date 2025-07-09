@@ -167,10 +167,22 @@ export default function FinishedTournament() {
           </div>
         </article>
 
-        <div className="flex justify-center my-4">
-          <Link href="/tournament/matches">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg w-full max-w-xs sm:max-w-md">
+        <div className="flex flex-col w-[95%] sm:w-[90%] m-auto max-[450px]:flex-col max-[450px]:items-center flex-row justify-center gap-4 my-8">
+          <Link
+            href="/tournament/matches"
+            className="w-full max-w-xs sm:max-w-md"
+          >
+            <button className="w-full  bg-blue-600 hover:bg-blue-700 text-white font-semibold px-2 sm:px-8 py-4 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer">
               Oglej si podatke turnirja
+            </button>
+          </Link>
+          <Link
+            target="_blank"
+            href="https://photos.google.com/share/AF1QipMtMcP_FI2WowQrNYiD6W9rloKfr-oMAGxW7pw9j7SiWTO9VrKnZ637No1tO6WiCA?key=bnZpMXdtWUQ5ZzlWN2JPdXhTQ0NzZ0xZTFNWVlNn"
+            className="w-full max-w-xs sm:max-w-md"
+          >
+            <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer">
+              Galerija
             </button>
           </Link>
         </div>
