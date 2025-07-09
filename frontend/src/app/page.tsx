@@ -24,6 +24,21 @@ export default function FinishedTournament() {
             </div>
           </div>
         </div>
+        <div className="flex flex-col flex-row justify-between items-center w-[90%] m-auto gap-4 my-8">
+          <Link href="/tournament/matches">
+            <button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer">
+              Podatki turnirja
+            </button>
+          </Link>
+          <Link
+            target="_blank"
+            href="https://photos.google.com/share/AF1QipMtMcP_FI2WowQrNYiD6W9rloKfr-oMAGxW7pw9j7SiWTO9VrKnZ637No1tO6WiCA?key=bnZpMXdtWUQ5ZzlWN2JPdXhTQ0NzZ0xZTFNWVlNn"
+          >
+            <button className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer">
+              Galerija
+            </button>
+          </Link>
+        </div>
 
         <article className="text-gray-700 text-base sm:text-lg space-y-6 mb-8 text-left leading-relaxed p-5">
           <p>
@@ -166,26 +181,6 @@ export default function FinishedTournament() {
             <div className="text-blue-600">KMN Smrkci Vojnik</div>
           </div>
         </article>
-
-        <div className="flex flex-col w-[95%] sm:w-[90%] m-auto max-[450px]:flex-col max-[450px]:items-center flex-row justify-center gap-4 my-8">
-          <Link
-            href="/tournament/matches"
-            className="w-full max-w-xs sm:max-w-md"
-          >
-            <button className="w-full  bg-blue-600 hover:bg-blue-700 text-white font-semibold px-2 sm:px-8 py-4 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer">
-              Oglej si podatke turnirja
-            </button>
-          </Link>
-          <Link
-            target="_blank"
-            href="https://photos.google.com/share/AF1QipMtMcP_FI2WowQrNYiD6W9rloKfr-oMAGxW7pw9j7SiWTO9VrKnZ637No1tO6WiCA?key=bnZpMXdtWUQ5ZzlWN2JPdXhTQ0NzZ0xZTFNWVlNn"
-            className="w-full max-w-xs sm:max-w-md"
-          >
-            <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer">
-              Galerija
-            </button>
-          </Link>
-        </div>
       </div>
     </main>
   );
