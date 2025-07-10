@@ -42,13 +42,14 @@ export default function FinishedTournament() {
 
         <article className="text-gray-700 text-base sm:text-lg space-y-6 mb-8 text-left leading-relaxed p-5">
           <p>
-            Dne 28.6.2025 smo člani Kluba malega nogometa Smrkci organizirali
-            drugi zaporedni turnir v malem nogometu. Turnir smo izvedli na
-            asfaltnem nogometnem igrišču v Vojniku. Udeležilo se ga je 16 ekip,
-            ki so bile razdeljene v 4 skupine po 4 ekipe. Iz vsake skupine sta v
-            izločilne boje napredovali 2 najboljši ekipi. Premor med skupinskim
-            delom in izločilnimi boji smo začinili z izvajanjem prostih strelov,
-            ki so potekali z razdalj 6 m, 9 m in 10 m. Prvi so se preizkusili
+            Dne 28.6.2025 smo člani{" "}
+            <strong>Kluba malega nogometa Smrkci</strong> organizirali drugi
+            zaporedni turnir v malem nogometu. Turnir smo izvedli na asfaltnem
+            nogometnem igrišču v Vojniku. Udeležilo se ga je 16 ekip, ki so bile
+            razdeljene v 4 skupine po 4 ekipe. Iz vsake skupine sta v izločilne
+            boje napredovali 2 najboljši ekipi. Premor med skupinskim delom in
+            izločilnimi boji smo začinili z izvajanjem prostih strelov, ki so
+            potekali z razdalj 6 m, 9 m in 10 m. Prvi so se preizkusili
             najmlajši tekmovalci v borbi za pico, malo starejši pa so merili za
             žlahtnejšo nagrado, ki jo je predstavljal plato piva.
           </p>
@@ -57,8 +58,8 @@ export default function FinishedTournament() {
             V izločilnih bojih je bil gledalcem postrežen izjemen futsal.
             Marsikatera poteza je vzela dih. Vsi igralci so pokazali neverjetno
             borbenost in srčnost, tisti, ki so pokazali malo več, pa so si
-            prislužili individualne nagrade, za katere je poskrbel SuperTrening,
-            in sicer:{" "}
+            prislužili individualne nagrade, za katere je poskrbel{" "}
+            <strong>SuperTrening</strong>, in sicer:{" "}
           </p>
           <div className="bg-yellow-50 rounded-2xl p-6 border-l-4 border-yellow-500">
             <h2 className="text-xl font-semibold text-yellow-800 mb-4">
