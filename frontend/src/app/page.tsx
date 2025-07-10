@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function FinishedTournament() {
   return (
-    <main className="min-h-screen bg-white sm:bg-blue-50 flex items-center justify-center p-0 ">
+    <main className="min-h-screen bg-blue-300 flex items-center justify-center p-0 ">
       <div className="w-full max-w-4xl bg-white rounded-none sm:rounded-3xl shadow-none sm:shadow-2xl overflow-hidden ">
         {/* Header Section */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6 sm:p-8 text-center">
